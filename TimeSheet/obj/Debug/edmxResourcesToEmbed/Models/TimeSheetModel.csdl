@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeSheetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TimeSheetContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblEmployees" EntityType="TimeSheetModel.tblEmployee" />
+    <EntitySet Name="tblTimeSheets" EntityType="TimeSheetModel.tblTimeSheet" />
+    <AssociationSet Name="FK_tblTimeSheet_tblEmployee" Association="TimeSheetModel.FK_tblTimeSheet_tblEmployee">
+      <End Role="tblEmployee" EntitySet="tblEmployees" />
+      <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tblEmployee">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="Guid" Nullable="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LatestModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="del" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="tblTimeSheets" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblEmployee" ToRole="tblTimeSheet" />
+  </EntityType>
+  <EntityType Name="tblTimeSheet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="EmpID" Type="Guid" Nullable="false" />
+    <Property Name="InTime" Type="DateTime" Precision="3" />
+    <Property Name="OutTime" Type="DateTime" Precision="3" />
+    <Property Name="TextBox1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TextBox2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="TextBox3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tblEmployee" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblTimeSheet" ToRole="tblEmployee" />
+  </EntityType>
+  <Association Name="FK_tblTimeSheet_tblEmployee">
+    <End Type="TimeSheetModel.tblEmployee" Role="tblEmployee" Multiplicity="1" />
+    <End Type="TimeSheetModel.tblTimeSheet" Role="tblTimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblEmployee">
+        <PropertyRef Name="EmpID" />
+      </Principal>
+      <Dependent Role="tblTimeSheet">
+        <PropertyRef Name="EmpID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

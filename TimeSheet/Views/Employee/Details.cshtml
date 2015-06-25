@@ -1,0 +1,60 @@
+﻿@model TimeSheet.Models.tblEmployee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblEmployee</legend>
+
+
+        @Html.HiddenFor(model => model.EmpID)
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FirstName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.LastName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LatestModifiedTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LatestModifiedTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.del)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.del)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.EmpID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

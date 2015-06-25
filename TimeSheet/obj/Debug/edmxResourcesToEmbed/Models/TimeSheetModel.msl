@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TimeSheetModelStoreContainer" CdmEntityContainer="TimeSheetContext">
+    <EntitySetMapping Name="tblEmployees">
+      <EntityTypeMapping TypeName="TimeSheetModel.tblEmployee">
+        <MappingFragment StoreEntitySet="tblEmployee">
+          <ScalarProperty Name="del" ColumnName="del" />
+          <ScalarProperty Name="LatestModifiedTime" ColumnName="LatestModifiedTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblTimeSheets">
+      <EntityTypeMapping TypeName="TimeSheetModel.tblTimeSheet">
+        <MappingFragment StoreEntitySet="tblTimeSheet">
+          <ScalarProperty Name="TextBox3" ColumnName="TextBox3" />
+          <ScalarProperty Name="TextBox2" ColumnName="TextBox2" />
+          <ScalarProperty Name="TextBox1" ColumnName="TextBox1" />
+          <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+          <ScalarProperty Name="InTime" ColumnName="InTime" />
+          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

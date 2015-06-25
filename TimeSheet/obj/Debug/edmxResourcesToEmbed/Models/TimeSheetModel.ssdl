@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeSheetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblEmployee">
+    <Key>
+      <PropertyRef Name="EmpID" />
+    </Key>
+    <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="CreateTime" Type="datetime" Nullable="false" />
+    <Property Name="LatestModifiedTime" Type="datetime" Nullable="false" />
+    <Property Name="del" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblTimeSheet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="InTime" Type="datetime" />
+    <Property Name="OutTime" Type="datetime" />
+    <Property Name="TextBox1" Type="varchar" MaxLength="200" />
+    <Property Name="TextBox2" Type="varchar" MaxLength="200" />
+    <Property Name="TextBox3" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="FK_tblTimeSheet_tblEmployee">
+    <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="1" />
+    <End Role="tblTimeSheet" Type="Self.tblTimeSheet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblEmployee">
+        <PropertyRef Name="EmpID" />
+      </Principal>
+      <Dependent Role="tblTimeSheet">
+        <PropertyRef Name="EmpID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TimeSheetModelStoreContainer">
+    <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblTimeSheet" EntityType="Self.tblTimeSheet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tblTimeSheet_tblEmployee" Association="Self.FK_tblTimeSheet_tblEmployee">
+      <End Role="tblEmployee" EntitySet="tblEmployee" />
+      <End Role="tblTimeSheet" EntitySet="tblTimeSheet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TimeSheetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblEmployee">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="LatestModifiedTime" Type="datetime" Nullable="false" />
+          <Property Name="del" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblTimeSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InTime" Type="datetime" />
+          <Property Name="OutTime" Type="datetime" />
+          <Property Name="TextBox1" Type="varchar" MaxLength="200" />
+          <Property Name="TextBox2" Type="varchar" MaxLength="200" />
+          <Property Name="TextBox3" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_tblTimeSheet_tblEmployee">
+          <End Role="tblEmployee" Type="Self.tblEmployee" Multiplicity="1" />
+          <End Role="tblTimeSheet" Type="Self.tblTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmpID" />
+            </Principal>
+            <Dependent Role="tblTimeSheet">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TimeSheetModelStoreContainer">
+          <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTimeSheet" EntityType="Self.tblTimeSheet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblTimeSheet_tblEmployee" Association="Self.FK_tblTimeSheet_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployee" />
+            <End Role="tblTimeSheet" EntitySet="tblTimeSheet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TimeSheetModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TimeSheetContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblEmployees" EntityType="TimeSheetModel.tblEmployee" />
+          <EntitySet Name="tblTimeSheets" EntityType="TimeSheetModel.tblTimeSheet" />
+          <AssociationSet Name="FK_tblTimeSheet_tblEmployee" Association="TimeSheetModel.FK_tblTimeSheet_tblEmployee">
+            <End Role="tblEmployee" EntitySet="tblEmployees" />
+            <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblEmployee">
+          <Key>
+            <PropertyRef Name="EmpID" />
+          </Key>
+          <Property Name="EmpID" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LatestModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="del" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblTimeSheets" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblEmployee" ToRole="tblTimeSheet" />
+        </EntityType>
+        <EntityType Name="tblTimeSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="EmpID" Type="Guid" Nullable="false" />
+          <Property Name="InTime" Type="DateTime" Precision="3" />
+          <Property Name="OutTime" Type="DateTime" Precision="3" />
+          <Property Name="TextBox1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TextBox2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TextBox3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblEmployee" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblTimeSheet" ToRole="tblEmployee" />
+        </EntityType>
+        <Association Name="FK_tblTimeSheet_tblEmployee">
+          <End Type="TimeSheetModel.tblEmployee" Role="tblEmployee" Multiplicity="1" />
+          <End Type="TimeSheetModel.tblTimeSheet" Role="tblTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblEmployee">
+              <PropertyRef Name="EmpID" />
+            </Principal>
+            <Dependent Role="tblTimeSheet">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TimeSheetModelStoreContainer" CdmEntityContainer="TimeSheetContext">
+          <EntitySetMapping Name="tblEmployees">
+            <EntityTypeMapping TypeName="TimeSheetModel.tblEmployee">
+              <MappingFragment StoreEntitySet="tblEmployee">
+                <ScalarProperty Name="del" ColumnName="del" />
+                <ScalarProperty Name="LatestModifiedTime" ColumnName="LatestModifiedTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTimeSheets">
+            <EntityTypeMapping TypeName="TimeSheetModel.tblTimeSheet">
+              <MappingFragment StoreEntitySet="tblTimeSheet">
+                <ScalarProperty Name="TextBox3" ColumnName="TextBox3" />
+                <ScalarProperty Name="TextBox2" ColumnName="TextBox2" />
+                <ScalarProperty Name="TextBox1" ColumnName="TextBox1" />
+                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+                <ScalarProperty Name="InTime" ColumnName="InTime" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
