@@ -1,0 +1,57 @@
+﻿@model TimeSheet.Models.tblTimeSheet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblTimeSheet</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.tblEmployee.FirstName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.tblEmployee.FirstName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.InTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.OutTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.OutTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TextBox1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TextBox1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TextBox2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TextBox2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TextBox3)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TextBox3)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

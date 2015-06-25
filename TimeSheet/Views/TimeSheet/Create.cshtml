@@ -1,0 +1,72 @@
+﻿@model TimeSheet.Models.tblTimeSheet
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>tblTimeSheet</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EmpID, "tblEmployee")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("EmpID", String.Empty)
+            @Html.ValidationMessageFor(model => model.EmpID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InTime)
+            @Html.ValidationMessageFor(model => model.InTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OutTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.OutTime)
+            @Html.ValidationMessageFor(model => model.OutTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TextBox1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TextBox1)
+            @Html.ValidationMessageFor(model => model.TextBox1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TextBox2)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TextBox2)
+            @Html.ValidationMessageFor(model => model.TextBox2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TextBox3)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TextBox3)
+            @Html.ValidationMessageFor(model => model.TextBox3)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

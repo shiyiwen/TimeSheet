@@ -115,16 +115,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\TimeSheetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\tblEmployee.cs">
       <DependentUpon>TimeSheetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblTimeSheet.cs">
       <DependentUpon>TimeSheetModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TimeSheet.cs" />
     <Compile Include="Models\TimeSheetModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -200,6 +203,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Employee\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
