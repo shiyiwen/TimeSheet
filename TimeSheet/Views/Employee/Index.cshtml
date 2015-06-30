@@ -4,8 +4,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Employee</h2>
+<p>
+    <ul>
+        <li>    @Html.ActionLink("Home", "index", "Home") </li>
+        <li>    @Html.ActionLink("Employee", "index", "Employee") </li>
+        <li>    @Html.ActionLink("TimeSheet", "index", "TimeSheet") </li>
+    </ul>
+</p>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,17 +32,68 @@ namespace TimeSheet.Models
                 timesheet.EmpID = id;
                 timesheet.InTime = System.DateTime.Now;
                 db.tblTimeSheets.Add(timesheet);
+                
+                tblEmployee tblemployee = db.tblEmployees.Find(id);
+                tblemployee.InOffice = true;
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
 
+            }
+            catch (DbEntityValidationException ex)
+            {
+                Console.WriteLine(ex.EntityValidationErrors);
+                return RedirectToAction("Index");
+            }
+        }
 
+
+
+        //
+        // GET: /Employee/Edit/5
+        [HttpGet]
+        public ActionResult CheckOut(Guid id)
+        {
+            tblTimeSheet timesheet = db.tblTimeSheets.Where(ts => ts.EmpID == id && ts.OutTime == null).OrderBy(ts => ts.InTime).FirstOrDefault();
+            if (timesheet == null)
+            {
+                return HttpNotFound();
+            }
+            ModelState.Clear();
+            return View(timesheet);
+        }
+        
+        //
+        // POST: /Home/CheckOut/
+
+        [HttpPost]
+        public ActionResult CheckOut(tblTimeSheet timesheet)
+        {
+            try
+            {
+                if (timesheet.TextBox1 == null || timesheet.TextBox1.Trim().Length == 0)
+                    ModelState.AddModelError("TextBox1", "required");
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(timesheet).State = EntityState.Modified;
+                    timesheet.OutTime = System.DateTime.Now;
+
+                    tblEmployee tblemployee = db.tblEmployees.Find(timesheet.EmpID);
+                    tblemployee.InOffice = false;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                else {
+                    return View(timesheet);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.InnerException);
-                return View();
+                return RedirectToAction("Index");
             }
         }
-
     }
 }

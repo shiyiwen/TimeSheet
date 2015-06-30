@@ -15,11 +15,12 @@
     <Property Name="EmpID" Type="Guid" Nullable="false" />
     <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="LatestModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="del" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="tblTimeSheets" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblEmployee" ToRole="tblTimeSheet" />
+    <Property Name="InOffice" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="tblTimeSheet">
     <Key>

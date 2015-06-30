@@ -7,9 +7,10 @@
     <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
-    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="CreateTime" Type="datetime" Nullable="false" />
     <Property Name="LatestModifiedTime" Type="datetime" Nullable="false" />
+    <Property Name="InOffice" Type="bit" Nullable="false" />
     <Property Name="del" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="tblTimeSheet">

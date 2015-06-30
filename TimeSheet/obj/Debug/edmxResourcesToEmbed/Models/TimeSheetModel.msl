@@ -4,6 +4,7 @@
     <EntitySetMapping Name="tblEmployees">
       <EntityTypeMapping TypeName="TimeSheetModel.tblEmployee">
         <MappingFragment StoreEntitySet="tblEmployee">
+          <ScalarProperty Name="InOffice" ColumnName="InOffice" />
           <ScalarProperty Name="del" ColumnName="del" />
           <ScalarProperty Name="LatestModifiedTime" ColumnName="LatestModifiedTime" />
           <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />

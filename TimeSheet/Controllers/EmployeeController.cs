@@ -54,6 +54,7 @@ namespace TimeSheet.Controllers
                 tblemployee.EmpID = Guid.NewGuid();
                 tblemployee.CreateTime = System.DateTime.Now;
                 tblemployee.LatestModifiedTime= System.DateTime.Now;
+                tblemployee.InOffice = false;
                 tblemployee.del = false;
                 db.tblEmployees.Add(tblemployee);
                 db.SaveChanges();

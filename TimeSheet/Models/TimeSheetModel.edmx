@@ -12,9 +12,10 @@
           <Property Name="EmpID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="LatestModifiedTime" Type="datetime" Nullable="false" />
+          <Property Name="InOffice" Type="bit" Nullable="false" />
           <Property Name="del" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblTimeSheet">
@@ -68,11 +69,12 @@
           <Property Name="EmpID" Type="Guid" Nullable="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LatestModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="del" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tblTimeSheets" Relationship="TimeSheetModel.FK_tblTimeSheet_tblEmployee" FromRole="tblEmployee" ToRole="tblTimeSheet" />
+          <Property Name="InOffice" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="tblTimeSheet">
           <Key>
@@ -108,6 +110,7 @@
           <EntitySetMapping Name="tblEmployees">
             <EntityTypeMapping TypeName="TimeSheetModel.tblEmployee">
               <MappingFragment StoreEntitySet="tblEmployee">
+                <ScalarProperty Name="InOffice" ColumnName="InOffice" />
                 <ScalarProperty Name="del" ColumnName="del" />
                 <ScalarProperty Name="LatestModifiedTime" ColumnName="LatestModifiedTime" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />

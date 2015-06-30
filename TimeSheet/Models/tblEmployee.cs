@@ -26,6 +26,7 @@ namespace TimeSheet.Models
         public System.DateTime CreateTime { get; set; }
         public System.DateTime LatestModifiedTime { get; set; }
         public bool del { get; set; }
+        public bool InOffice { get; set; }
     
         public virtual ICollection<tblTimeSheet> tblTimeSheets { get; set; }
     }
