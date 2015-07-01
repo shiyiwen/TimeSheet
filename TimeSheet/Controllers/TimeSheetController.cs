@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeSheet.Models;
+using BusinessLayer;
 
 namespace TimeSheet.Controllers
 {
@@ -18,8 +19,12 @@ namespace TimeSheet.Controllers
 
         public ActionResult Index()
         {
-            var tbltimesheets = db.tblTimeSheets.Include(t => t.tblEmployee);
-            return View(tbltimesheets.ToList());
+           // var tbltimesheets = db.tblTimeSheets.Include(t => t.tblEmployee);
+           // return View(tbltimesheets.ToList());
+            TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
+            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheets.ToList();
+            return View(timesheets);
+
         }
 
         //

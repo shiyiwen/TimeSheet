@@ -28,3 +28,5 @@ c:\users\fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Sy
 c:\users\fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\obj\Debug\TimeSheet.dll
 c:\users\fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\obj\Debug\TimeSheet.pdb
 C:\Users\Fitiri\Documents\Visual Studio 2013\Projects\TimeSheet\TimeSheet\obj\Debug\TimeSheet.csprojResolveAssemblyReference.cache
+C:\Users\Fitiri\Documents\Visual Studio 2013\Projects\TimeSheet\TimeSheet\bin\BusinessLayer.dll
+C:\Users\Fitiri\Documents\Visual Studio 2013\Projects\TimeSheet\TimeSheet\bin\BusinessLayer.pdb

@@ -207,7 +207,7 @@
     <Content Include="Views\Employee\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\TimeSheet\Index.cshtml" />
+    <Content Include="Views\TimeSheet\Index1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\TimeSheet\Details.cshtml" />
@@ -226,6 +226,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\CheckOut.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{32ebd356-891d-4bb7-b46a-d25a8ed133c1}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheet\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

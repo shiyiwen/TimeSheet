@@ -1,21 +1,25 @@
-﻿@model IEnumerable<BusinessLayer.TimeSheet>
+﻿@model IEnumerable<TimeSheet.Models.tblTimeSheet>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Timesheet</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <ul>
+        <li>    @Html.ActionLink("Home", "index", "Home") </li>
+        <li>    @Html.ActionLink("Employee", "index", "Employee") </li>
+        <li>    @Html.ActionLink("TimeSheet", "index", "TimeSheet") </li>
+    </ul>
 </p>
+
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.employee.FirstName)
+            @Html.DisplayNameFor(model => model.tblEmployee.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.employee.LastName)
+            @Html.DisplayNameFor(model => model.tblEmployee.LastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InTime)
@@ -34,10 +38,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.employee.FirstName)
+            @Html.DisplayFor(modelItem => item.tblEmployee.FirstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.employee.LastName)
+            @Html.DisplayFor(modelItem => item.tblEmployee.LastName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InTime)
@@ -46,7 +50,10 @@
             @Html.DisplayFor(modelItem => item.OutTime)
         </td>
         <td>
+            @{  
+            item.TotalHours = item.OutTime - item.InTime;
             @Html.DisplayFor(modelItem => item.TotalHours)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TextBox1)
