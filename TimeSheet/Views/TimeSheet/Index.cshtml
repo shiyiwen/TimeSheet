@@ -4,11 +4,25 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Timesheet</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <ul>
+        <li>    @Html.ActionLink("Home", "index", "Home") </li>
+        <li>    @Html.ActionLink("Employee", "index", "Employee") </li>
+        <li>    @Html.ActionLink("TimeSheet", "index", "TimeSheet") </li>
+    </ul>
 </p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<p>
+    @Html.Label("Name")
+    @Html.DropDownList("ddlEmployees")
+    <input type="submit" value="Search" />
+</p>
+}
+
 <table>
     <tr>
         <th>

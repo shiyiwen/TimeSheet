@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace BusinessLayer
         [DisplayName("Out Time")]
         public Nullable<System.DateTime> OutTime { get; set; }
         [DisplayName("Total Hours")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:%d}d {0:%h}h {0:%m}m")]
         public TimeSpan? TotalHours { get; set; }
         [DisplayName("Despcription of Work")]
         public string TextBox1 { get; set; }

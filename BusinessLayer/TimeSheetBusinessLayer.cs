@@ -12,7 +12,7 @@ namespace BusinessLayer
     public class TimeSheetBusinessLayer
     {
         
-        public IEnumerable<TimeSheet> TimeSheets
+        public IEnumerable<TimeSheet> ALLTimeSheets
         {
             get
             {
@@ -49,5 +49,47 @@ namespace BusinessLayer
                 return timesheets;    
             }       
         }
+
+
+        public IEnumerable<TimeSheet> TimeSheetsByName (Guid EmpID)
+        {
+            //get
+            //{
+                string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
+
+                List<TimeSheet> timesheets = new List<TimeSheet>();
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("spGetTimeSheetByName", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = EmpID;
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        TimeSheet timesheet = new TimeSheet();
+                        timesheet.employee = new Employee();
+                        timesheet.employee.FirstName = dr["FirstName"].ToString();
+                        timesheet.employee.LastName = dr["LastName"].ToString();
+                        if (!dr.IsDBNull(dr.GetOrdinal("InTime")))
+                        {
+                            timesheet.InTime = Convert.ToDateTime(dr["InTime"]);
+                        }
+                        //timesheet.InTime = dr["InTime"] as DateTime;
+                        if (!dr.IsDBNull(dr.GetOrdinal("OutTime")))
+                        {
+                            timesheet.OutTime = Convert.ToDateTime(dr["OutTime"]);
+                            timesheet.TotalHours = TimeSpan.FromMinutes(System.Convert.ToDouble(dr["TotalHours"]));
+                        }
+                        timesheet.TextBox1 = dr["TextBox1"].ToString();
+                        timesheets.Add(timesheet);
+                    }
+                    con.Close();
+                }
+                return timesheets;
+            //}
+        }
+
     }
 }
