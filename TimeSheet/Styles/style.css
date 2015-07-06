@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+a.actionlink:link { 
+    color: #1FC4FA 
+}
+a.actionlink:visited { 
+    color: #1FC4FA 
+}
+a.actionlink:hover { 
+    color: #122C69 
+}
+a.tblactionlink:link { 
+    color: #1FC4FA 
+}
+a.tblactionlink:visited { 
+    color: #1FC4FA 
+}
+a.tblactionlink:hover { 
+    color: #122C69 
+}
+
+p {
+    margin-left:10px;
+    color: #122C69;  
+    font-family: "Lato", sans-serif;
+    font-size:20px;
+}
+
+.fieldset-width {
+    width:600px;
+}
+.editor-label, .display-label
+{
+    float:left;
+    width:200px;
+    text-align: right;
+    font-family:"Lato", sans-serif;
+    font-weight:bold;
+    font-size: 15px;
+    margin:0 2em 0 0;
+    min-height:2em;
+    color: #6E6E6E;
+}
+.editor-field, .display-field
+{
+    float:left;
+    width: 400px;
+    font-family:"Lato", sans-serif;
+    font-weight:bold;
+    font-size: 15px;
+    min-height:2em;
+}
+
+
+.container {
+    width:1000px; margin-left:auto; margin-right:auto;
+}
+
+.header {
+    background: #1FC4FA;
+}
+.header img {
+    float:left;
+    height: 100px;
+    width: 120px;
+    margin-right:15px;
+    margin-left:300px;
+    margin-top:50px;
+}
+.header h1{
+    color: white;
+    line-height: 200px;
+    font-family: 'Lato', sans-serif; font-weight: 100; font-size:36px;
+}
+
+.navigation {
+    background: white;
+    font-family: 'Lato', sans-serif;
+    line-height: 50px;
+    text-align:right;
+    padding-right:15px;
+    border-bottom:solid 4px #1FC4FA;
+}
+.navigation ul {
+    list-style:none;
+    color: #1FC4FA;
+    font-size:20px;
+}
+.navigation li {
+    display:inline;
+    padding-right: 5px;
+    color: #1FC4FA;
+    text-decoration: none;
+}
+
+.footer {
+    background: #1FC4FA;
+    font-family: 'Lato', sans-serif; font-weight: 100;
+    text-align: center;
+    line-height: 50px;
+    color:white;
+}
+
+.home table {
+    width: 600px;
+    margin-left:auto; 
+    margin-right:auto; 
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align: center;
+    border-bottom: solid 2px #1FC4FA;
+}
+
+.timesheet table {
+    width: 900px;
+    margin-left:auto; 
+    margin-right:auto; 
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align: center;
+    border-bottom: solid 2px #1FC4FA;
+}
+
+th {
+   background: #1FC4FA;
+   color:white;
+   font-family:"Lato", sans-serif;
+   font-size:20px;
+   height:50px;
+}
+
+tr {
+   font-family:"Lato", sans-serif;
+   font-size:20px;
+   height:40px;
+}
+tr:nth-child(even) {
+    background-color: #FFFFFF;
+    color:#6E6E6E;
+}
+tr:nth-child(odd) {
+    background-color: #CED8F6;
+    color:#122C69;
+}
+
+h2 {
+    color: #6E6E6E;
+    font-family:"Lato", sans-serif;
+    font-size: 20px;
+    padding: 20px;
+}

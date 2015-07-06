@@ -3,43 +3,47 @@
 @{
     ViewBag.Title = "CheckOut";
 }
+@RenderPage("~/Shared/_Header.cshtml")
+@RenderPage("~/Shared/_Navigation.cshtml")
+<div class="container">
+    <h2>Check Out</h2>
 
-<h2>CheckOut</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>tblTimeSheet</legend>
 
-    <fieldset>
-        <legend>tblTimeSheet</legend>
+            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(model => model.EmpID)
 
-        @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model => model.EmpID)
-        
-        <div class="display-label">
-            Name
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.tblEmployee.FirstName)@Html.DisplayFor(model => model.tblEmployee.LastName)
-        </div>
+            <div class="display-label">
+                Name
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.tblEmployee.FirstName)@Html.DisplayFor(model => model.tblEmployee.LastName)
+            </div>
 
-        @Html.HiddenFor(model => model.InTime)
-        @Html.HiddenFor(model => model.OutTime)
+            @Html.HiddenFor(model => model.InTime)
+            @Html.HiddenFor(model => model.OutTime)
 
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TextBox1)
-        </div>
-        <div class="editor-field">
-            @Html.TextAreaFor(model => model.TextBox1, new { style = "width:250px; height:50px;"})
-            @Html.ValidationMessageFor(model => model.TextBox1)
-        </div>
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
+            <div class="editor-label">
+                @Html.LabelFor(model => model.TextBox1)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => model.TextBox1, new { style = "width:250px; height:50px;" })
+                @Html.ValidationMessageFor(model => model.TextBox1)
+            </div>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+    }
 
-<div>
+
     @Html.ActionLink("Back to List", "Index")
 </div>
+@RenderPage("~/Shared/_Footer.cshtml")

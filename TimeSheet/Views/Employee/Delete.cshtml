@@ -3,66 +3,71 @@
 @{
     ViewBag.Title = "Delete";
 }
+@RenderPage("~/Shared/_Header.cshtml")
+@RenderPage("~/Shared/_Navigation.cshtml")
+<div class="container">
+    <h2>Employee | Delete</h2>
 
-<h2>Delete</h2>
+    <h3>Are you sure you want to delete this?</h3>
+    <fieldset>
+        <legend>Employee</legend>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>Employee</legend>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.EmpID)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.EmpID)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.EmpID)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.EmpID)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FirstName)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FirstName)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.LastName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LastName)
+        </div>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.LastName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastName)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Email)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreateTime)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.CreateTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreateTime)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.LatestModifiedTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LatestModifiedTime)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.LatestModifiedTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LatestModifiedTime)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.del)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.del)
-    </div>
-</fieldset>
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-}
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.del)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.del)
+        </div>
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <p>
+            <input type="submit" value="Delete" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    }
+</div>
+@RenderPage("~/Shared/_Footer.cshtml")

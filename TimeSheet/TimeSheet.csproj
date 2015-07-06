@@ -150,6 +150,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Image\Fitiri_logo.png" />
+    <Content Include="Styles\style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -210,18 +212,6 @@
     <Content Include="Views\TimeSheet\Index1.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\TimeSheet\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheet\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheet\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheet\Delete.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +225,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\TimeSheet\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shared\_Header.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shared\_Footer.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shared\_Navigation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shared\Web.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

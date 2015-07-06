@@ -3,69 +3,71 @@
 @{
     ViewBag.Title = "Index";
 }
+@RenderPage("~/Shared/_Header.cshtml")
+@RenderPage("~/Shared/_Navigation.cshtml")
+<div class="container">
+    <h2>Timesheet</h2>
+    <div class="timesheet">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <p>
+                @Html.Label("Name")
+                @Html.DropDownList("ddlEmployees")
+                <input type="submit" value="Search" />
+            </p>
+        }
 
-<h2>Timesheet</h2>
-<p>
-    <ul>
-        <li>    @Html.ActionLink("Home", "index", "Home") </li>
-        <li>    @Html.ActionLink("Employee", "index", "Employee") </li>
-        <li>    @Html.ActionLink("TimeSheet", "index", "TimeSheet") </li>
-    </ul>
-</p>
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.employee.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employee.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OutTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalHours)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TextBox1)
+                </th>
+            </tr>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-<p>
-    @Html.Label("Name")
-    @Html.DropDownList("ddlEmployees")
-    <input type="submit" value="Search" />
-</p>
-}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.employee.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.employee.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OutTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalHours)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TextBox1)
+                    </td>
+                </tr>
+            }
 
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.employee.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.employee.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OutTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalHours)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TextBox1)
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.employee.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.employee.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OutTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalHours)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TextBox1)
-        </td>
-    </tr>
-}
-
-</table>
+        </table>
+    </div>
+</div>
+<br>
+<br>
+<br>
+@RenderPage("~/Shared/_Footer.cshtml")

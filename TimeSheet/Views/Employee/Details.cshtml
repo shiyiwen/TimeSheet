@@ -3,58 +3,63 @@
 @{
     ViewBag.Title = "Details";
 }
+@RenderPage("~/Shared/_Header.cshtml")
+@RenderPage("~/Shared/_Navigation.cshtml")
+<div class="container">
+    <h2>Employee | Details</h2>
 
-<h2>Details</h2>
-
-<fieldset>
-    <legend>Employee</legend>
+    <fieldset>
+        <legend>Employee</legend>
 
 
         @Html.HiddenFor(model => model.EmpID)
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.FirstName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.FirstName)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.FirstName)
+        </div>
 
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.LastName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastName)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.LastName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LastName)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Email)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Email)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.CreateTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreateTime)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.CreateTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreateTime)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.LatestModifiedTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LatestModifiedTime)
-    </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.LatestModifiedTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.LatestModifiedTime)
+        </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.del)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.del)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.EmpID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.del)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.del)
+        </div>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EmpID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+</div>
+@RenderPage("~/Shared/_Footer.cshtml")
