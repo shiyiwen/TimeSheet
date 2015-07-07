@@ -19,7 +19,7 @@ namespace BusinessLayer
         [DisplayName("Total Hours")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:%d}d {0:%h}h {0:%m}m")]
         public TimeSpan? TotalHours { get; set; }
-        [DisplayName("Despcription of Work")]
+        [DisplayName("Description of Work")]
         public string TextBox1 { get; set; }
         public string TextBox2 { get; set; }
         public string TextBox3 { get; set; }

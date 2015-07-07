@@ -8,34 +8,36 @@
 <div class="container">
     <h2>Timesheet</h2>
     <div class="timesheet">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+        <div style="text-indent:30px">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
             <p>
                 @Html.Label("Name")
-                @Html.DropDownList("ddlEmployees")
-                <input type="submit" value="Search" />
+                @Html.DropDownList("ddlEmployees", null, new { @class = "dropdownlist" })
+                <input type="submit" value="Search" class="button" />
             </p>
-        }
-
+            }
+            <br>
+        </div>
         <table>
             <tr>
-                <th>
+                <th width="10%">
                     @Html.DisplayNameFor(model => model.employee.FirstName)
                 </th>
-                <th>
+                <th width="10%">
                     @Html.DisplayNameFor(model => model.employee.LastName)
                 </th>
-                <th>
+                <th width="20%">
                     @Html.DisplayNameFor(model => model.InTime)
                 </th>
-                <th>
+                <th width="20%">
                     @Html.DisplayNameFor(model => model.OutTime)
                 </th>
-                <th>
+                <th width ="10%">
                     @Html.DisplayNameFor(model => model.TotalHours)
                 </th>
-                <th>
+                <th width="30%">
                     @Html.DisplayNameFor(model => model.TextBox1)
                 </th>
             </tr>
@@ -67,7 +69,4 @@
         </table>
     </div>
 </div>
-<br>
-<br>
-<br>
 @RenderPage("~/Shared/_Footer.cshtml")

@@ -6,15 +6,15 @@
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
 <div class="container">
-    <h2>Check Out</h2>
+    <h2>Out</h2>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        <fieldset>
-            <legend>tblTimeSheet</legend>
+        <fieldset class="fieldset">
+            <legend></legend>
 
             @Html.HiddenFor(model => model.ID)
             @Html.HiddenFor(model => model.EmpID)
@@ -23,7 +23,7 @@
                 Name
             </div>
             <div class="display-field">
-                @Html.DisplayFor(model => model.tblEmployee.FirstName)@Html.DisplayFor(model => model.tblEmployee.LastName)
+                @Html.DisplayFor(model => model.tblEmployee.FirstName)&nbsp;&nbsp;&nbsp;@Html.DisplayFor(model => model.tblEmployee.LastName)
             </div>
 
             @Html.HiddenFor(model => model.InTime)
@@ -32,18 +32,22 @@
 
             <div class="editor-label">
                 @Html.LabelFor(model => model.TextBox1)
+                <font color="red">*</font>
             </div>
             <div class="editor-field">
-                @Html.TextAreaFor(model => model.TextBox1, new { style = "width:250px; height:50px;" })
+                @Html.TextAreaFor(model => model.TextBox1, new { @class="textfield" })
                 @Html.ValidationMessageFor(model => model.TextBox1)
             </div>
-            <p>
-                <input type="submit" value="Save" />
-            </p>
         </fieldset>
+        <br>
+        <p align="center">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+            &nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Out" class="button" />
+        </p>
     }
 
 
-    @Html.ActionLink("Back to List", "Index")
+
 </div>
 @RenderPage("~/Shared/_Footer.cshtml")

@@ -24,6 +24,15 @@ namespace TimeSheet.Models
 
             [Required]
             public string Email { get; set; }
+
+            [DisplayName("Create Time")]
+            public System.DateTime CreateTime { get; set; }
+
+            [DisplayName("Latest Modified Time")]
+            public System.DateTime LatestModifiedTime { get; set; }
+
+            [DisplayName("Inactive")]
+            public bool del { get; set; }
         }
     }
 }

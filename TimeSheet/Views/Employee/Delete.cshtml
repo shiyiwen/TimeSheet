@@ -7,17 +7,11 @@
 @RenderPage("~/Shared/_Navigation.cshtml")
 <div class="container">
     <h2>Employee | Delete</h2>
-
     <h3>Are you sure you want to delete this?</h3>
-    <fieldset>
-        <legend>Employee</legend>
+    <fieldset class="fieldset">
+        <legend></legend>
 
-        <div class="display-label">
-            @Html.DisplayNameFor(model => model.EmpID)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.EmpID)
-        </div>
+        @Html.HiddenFor(model => model.EmpID)
 
         <div class="display-label">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -61,12 +55,14 @@
             @Html.DisplayFor(model => model.del)
         </div>
     </fieldset>
+    <br>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <p>
-            <input type="submit" value="Delete" /> |
-            @Html.ActionLink("Back to List", "Index")
+        <p align="center">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "button" }) 
+            &nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Delete" class="button"/>
         </p>
     }
 </div>

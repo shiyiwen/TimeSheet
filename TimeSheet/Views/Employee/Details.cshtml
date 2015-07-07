@@ -8,8 +8,8 @@
 <div class="container">
     <h2>Employee | Details</h2>
 
-    <fieldset>
-        <legend>Employee</legend>
+    <fieldset class="fieldset">
+        <legend></legend>
 
 
         @Html.HiddenFor(model => model.EmpID)
@@ -56,9 +56,11 @@
             @Html.DisplayFor(model => model.del)
         </div>
     </fieldset>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.EmpID }) |
-        @Html.ActionLink("Back to List", "Index")
+    <br>
+    <p align="center">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+         &nbsp; &nbsp; &nbsp;
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EmpID }, new { @class = "button" })
     </p>
 
 </div>
