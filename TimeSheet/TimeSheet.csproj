@@ -121,6 +121,9 @@
     </Compile>
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\spGetAllEmployee_Result.cs">
+      <DependentUpon>TimeSheetModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblEmployee.cs">
       <DependentUpon>TimeSheetModel.tt</DependentUpon>
     </Compile>

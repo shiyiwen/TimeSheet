@@ -12,6 +12,9 @@ namespace TimeSheet.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class TimeSheetContext : DbContext
     {
@@ -27,5 +30,10 @@ namespace TimeSheet.Models
     
         public DbSet<tblEmployee> tblEmployees { get; set; }
         public DbSet<tblTimeSheet> tblTimeSheets { get; set; }
+    
+        public virtual ObjectResult<spGetAllEmployee_Result> spGetAllEmployee()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllEmployee_Result>("spGetAllEmployee");
+        }
     }
 }

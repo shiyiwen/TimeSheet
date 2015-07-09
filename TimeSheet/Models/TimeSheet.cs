@@ -13,7 +13,7 @@ namespace TimeSheet.Models
         public TimeSpan? TotalHours { get; set; }
         public class TimeSheetMetaData
         {
-            [DisplayName("Discreption of Work")]
+            [DisplayName("Description of Work")]
             public string TextBox1 { get; set; }
 
             [DisplayName("Total Hours")]

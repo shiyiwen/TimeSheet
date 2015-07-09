@@ -37,6 +37,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="spGetAllEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spGetAllTimeSheet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="spGetTimeSheetByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EmpID" Type="uniqueidentifier" Mode="In" />
+  </Function>
   <EntityContainer Name="TimeSheetModelStoreContainer">
     <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblTimeSheet" EntityType="Self.tblTimeSheet" Schema="dbo" store:Type="Tables" />

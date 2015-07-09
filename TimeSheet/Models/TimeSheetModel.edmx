@@ -42,6 +42,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spGetAllEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetAllTimeSheet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spGetTimeSheetByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <EntityContainer Name="TimeSheetModelStoreContainer">
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTimeSheet" EntityType="Self.tblTimeSheet" Schema="dbo" store:Type="Tables" />
@@ -61,6 +66,7 @@
             <End Role="tblEmployee" EntitySet="tblEmployees" />
             <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
           </AssociationSet>
+          <FunctionImport Name="spGetAllEmployee" ReturnType="Collection(TimeSheetModel.spGetAllEmployee_Result)" />
         </EntityContainer>
         <EntityType Name="tblEmployee">
           <Key>
@@ -101,6 +107,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="spGetAllEmployee_Result">
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -134,6 +144,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllEmployee" FunctionName="TimeSheetModel.Store.spGetAllEmployee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllEmployee_Result">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

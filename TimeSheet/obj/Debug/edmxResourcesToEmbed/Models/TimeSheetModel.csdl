@@ -7,6 +7,7 @@
       <End Role="tblEmployee" EntitySet="tblEmployees" />
       <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
     </AssociationSet>
+    <FunctionImport Name="spGetAllEmployee" ReturnType="Collection(TimeSheetModel.spGetAllEmployee_Result)" />
   </EntityContainer>
   <EntityType Name="tblEmployee">
     <Key>
@@ -47,4 +48,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <ComplexType Name="spGetAllEmployee_Result">
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
+  </ComplexType>
 </Schema>

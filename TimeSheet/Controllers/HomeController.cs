@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeSheet.Models;
+using BusinessLayer;
 
 namespace TimeSheet.Models
 {
@@ -71,14 +72,14 @@ namespace TimeSheet.Models
         {
             try
             {
+
                 if (timesheet.TextBox1 == null || timesheet.TextBox1.Trim().Length == 0)
-                    ModelState.AddModelError("TextBox1", "required");
+                    ModelState.AddModelError("TextBox1", "Description of Work is required.");
 
                 if (ModelState.IsValid)
                 {
                     db.Entry(timesheet).State = EntityState.Modified;
                     timesheet.OutTime = System.DateTime.Now;
-
                     tblEmployee tblemployee = db.tblEmployees.Find(timesheet.EmpID);
                     tblemployee.InOffice = false;
                     db.SaveChanges();
@@ -86,6 +87,7 @@ namespace TimeSheet.Models
                     return RedirectToAction("Index");
                 }
                 else {
+                    timesheet.tblEmployee = db.tblEmployees.Find(timesheet.EmpID);
                     return View(timesheet);
                 }
             }
