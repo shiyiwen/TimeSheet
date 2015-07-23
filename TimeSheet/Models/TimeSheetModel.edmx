@@ -67,6 +67,7 @@
             <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
           </AssociationSet>
           <FunctionImport Name="spGetAllEmployee" ReturnType="Collection(TimeSheetModel.spGetAllEmployee_Result)" />
+          <FunctionImport Name="spGetAllTimeSheet" ReturnType="Collection(TimeSheetModel.spGetAllTimeSheet_Result)" />
         </EntityContainer>
         <EntityType Name="tblEmployee">
           <Key>
@@ -111,6 +112,14 @@
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="20" />
         </ComplexType>
+        <ComplexType Name="spGetAllTimeSheet_Result">
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="InTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="OutTime" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TotalHours" Nullable="true" />
+          <Property Type="String" Name="TextBox1" Nullable="true" MaxLength="200" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -149,6 +158,18 @@
               <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllEmployee_Result">
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllTimeSheet" FunctionName="TimeSheetModel.Store.spGetAllTimeSheet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllTimeSheet_Result">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="InTime" ColumnName="InTime" />
+                <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+                <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
+                <ScalarProperty Name="TextBox1" ColumnName="TextBox1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

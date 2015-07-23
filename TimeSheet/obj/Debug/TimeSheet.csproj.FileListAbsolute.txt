@@ -3,6 +3,7 @@ C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Ti
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\TimeSheet.pdb
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\BusinessLayer.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\EntityFramework.dll
+C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Infragistics.Web.Mvc.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Newtonsoft.Json.dll
@@ -17,6 +18,7 @@ C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Sy
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\System.Web.WebPages.Razor.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\BusinessLayer.pdb
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\EntityFramework.xml
+C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Infragistics.Web.Mvc.xml
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\Newtonsoft.Json.xml
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\System.Net.Http.Formatting.xml
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\TimeSheet\bin\System.Web.Helpers.xml

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TimeSheet.Models;
 using BusinessLayer;
+using Infragistics.Web.Mvc;
 
 namespace TimeSheet.Controllers
 {
@@ -34,6 +35,7 @@ namespace TimeSheet.Controllers
 
             List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.ALLTimeSheets.ToList();
             return View(timesheets);
+            //return Json(timesheets, JsonRequestBehavior.AllowGet);
         }
 
 

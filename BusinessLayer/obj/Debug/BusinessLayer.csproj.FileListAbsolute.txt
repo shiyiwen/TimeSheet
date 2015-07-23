@@ -1,4 +1,5 @@
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\BusinessLayer\bin\Debug\BusinessLayer.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\BusinessLayer\bin\Debug\BusinessLayer.pdb
+C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\BusinessLayer\obj\Debug\BusinessLayer.csprojResolveAssemblyReference.cache
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\BusinessLayer\obj\Debug\BusinessLayer.dll
 C:\Users\Fitiri\documents\visual studio 2013\Projects\TimeSheet\BusinessLayer\obj\Debug\BusinessLayer.pdb

@@ -36,5 +36,17 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="spGetAllTimeSheet" FunctionName="TimeSheetModel.Store.spGetAllTimeSheet">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllTimeSheet_Result">
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="InTime" ColumnName="InTime" />
+          <ScalarProperty Name="OutTime" ColumnName="OutTime" />
+          <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
+          <ScalarProperty Name="TextBox1" ColumnName="TextBox1" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

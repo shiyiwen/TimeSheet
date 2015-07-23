@@ -5,6 +5,22 @@
 }
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("table").tablesorter({
+            headers: {
+                2: {
+                    sorter: false
+                },
+                3: {
+                    sorter: false
+                }
+            }
+        });
+    });
+</script>
+
 <div class="container">
     <h2>Employee</h2>
     <p align="center">
@@ -12,22 +28,25 @@
     </p>
     <br>
     <div class="employee">
-        <table>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th> </th>
-            </tr>
+        <table id="tblEmployee">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th> </th>
+                </tr>
+            </thead>
 
-            @foreach (var item in Model)
-            {
+            <tbody>
+                @foreach (var item in Model)
+                {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
@@ -52,10 +71,11 @@
                             @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" })
                         </td>
                     }
-
-    
                 </tr>
-            }
+                }
+            </tbody>
+
+
         </table>
     </div>
 </div>

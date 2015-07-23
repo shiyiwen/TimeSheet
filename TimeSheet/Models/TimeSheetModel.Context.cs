@@ -35,5 +35,10 @@ namespace TimeSheet.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllEmployee_Result>("spGetAllEmployee");
         }
+    
+        public virtual ObjectResult<spGetAllTimeSheet_Result> spGetAllTimeSheet()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllTimeSheet_Result>("spGetAllTimeSheet");
+        }
     }
 }

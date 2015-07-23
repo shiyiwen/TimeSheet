@@ -42,6 +42,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Infragistics.Web.Mvc, Version=4.15.1.2112, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -116,12 +119,16 @@
   <ItemGroup>
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\TimeSheetController.cs" />
+    <Compile Include="Controllers\TimeSheetGridController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\spGetAllEmployee_Result.cs">
+      <DependentUpon>TimeSheetModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spGetAllTimeSheet_Result.cs">
       <DependentUpon>TimeSheetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblEmployee.cs">
@@ -153,8 +160,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="css\asc.gif" />
+    <Content Include="css\bg.gif" />
+    <Content Include="css\desc.gif" />
     <Content Include="Image\Fitiri_logo.png" />
-    <Content Include="Styles\style.css" />
+    <Content Include="js\jquery-latest.js" />
+    <Content Include="js\jquery.tablesorter.js" />
+    <Content Include="css\style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -240,6 +252,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Shared\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheetGrid\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheetGrid\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheetGrid\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheetGrid\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TimeSheetGrid\Delete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

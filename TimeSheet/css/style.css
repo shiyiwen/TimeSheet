@@ -25,7 +25,7 @@ a.tblactionlink:hover {
 }
 
 p {
-    margin-left:10px;
+    padding-left:10px;
     color: #122C69;  
     font-family: "Lato", sans-serif;
     font-size:20px;
@@ -60,6 +60,8 @@ p {
 .textbox {
     height:25px;
     width: 250px;
+    padding:5px;
+    margin:5px;
     font-family:"Lato", sans-serif;
     font-size: 16px;
 }
@@ -67,15 +69,18 @@ p {
 .textfield {
     height:100px;
     width: 250px;
+    padding:5px;
+    margin:5px;
     font-family:"Lato", sans-serif;
     font-size: 16px;
 }
 
 .dropdownlist {
-    height:35px;
     width: 250px;
+    padding:5px;
+    margin:5px;
     font-family:"Lato", sans-serif;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .container {
@@ -92,6 +97,7 @@ p {
     margin-right:15px;
     margin-left:300px;
     margin-top:50px;
+    background: #1FC4FA;
 }
 .header h1{
     color: white;
@@ -127,81 +133,9 @@ p {
     color:white;
 }
 
-.home table {
-    table-layout:fixed;
-    width: 600px;
-    margin-left:auto; 
-    margin-right:auto; 
-    margin-top:auto;
-    margin-bottom:auto;
-    text-align: center;
-    border-bottom: solid 2px #1FC4FA;
-}
 
-.employee table {
-    table-layout:fixed;
-    width: 800px;
-    margin-left:auto; 
-    margin-right:auto; 
-    margin-top:auto;
-    margin-bottom:auto;
-    text-align: center;
-    border-bottom: solid 2px #1FC4FA;
-}
 
-.employee tr {
-   font-family:"Lato", sans-serif;
-   font-size:18px;
-   height:40px;
-}
 
-.timesheet table {
-    table-layout:fixed;
-    word-wrap:break-word;
-    width: 950px;
-    margin-left:auto; 
-    margin-right:auto; 
-    margin-top:auto;
-    margin-bottom:auto;
-    text-align: center;
-    border-bottom: solid 2px #1FC4FA;
-}
-
-.timesheet th {
-   background: #1FC4FA;
-   color:white;
-   font-family:"Lato", sans-serif;
-   font-size:18px;
-   height:50px;
-}
-
-.timesheet tr {
-   font-family:"Lato", sans-serif;
-   font-size:16px;
-   height:40px;
-}
-
-th {
-   background: #1FC4FA;
-   color:white;
-   font-family:"Lato", sans-serif;
-   font-size:20px;
-   height:50px;
-}
-
-tr {
-   font-family:"Lato", sans-serif;
-   font-size:20px;
-   height:40px;
-}
-tr:nth-child(even) {
-    background-color: #FFFFFF;
-    color:#6E6E6E;
-}
-tr:nth-child(odd) {
-    background-color: #CED8F6;
-    color:#6E6E6E;
-}
 
 h2 {
     color: #6E6E6E;
@@ -282,3 +216,89 @@ h3 {
     box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;  
   
 }
+
+
+.search input {
+    
+
+}
+
+.filtered{
+    border: solid 1px #707070;
+    box-shadow: 0 0 5px 1px #969696;
+}
+
+
+/* tables */
+table {
+    table-layout:fixed;
+    margin-left:auto; 
+    margin-right:auto; 
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align: center;
+    border-bottom: solid 2px #1FC4FA;
+}
+
+table thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table thead tr .headerSortUp {
+	background-image: url(asc.gif);
+}
+
+table thead tr .headerSortDown {
+	background-image: url(desc.gif);
+}
+
+th {
+   background: #1FC4FA;
+   color:white;
+   font-family:"Lato", sans-serif;
+   font-size:20px;
+   height:50px;
+}
+
+tr {
+   font-family:"Lato", sans-serif;
+   font-size:20px;
+   height:40px;
+   color:#6E6E6E;    
+}
+
+tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+tr:nth-child(even) {
+    background-color: #CED8F6;
+}
+
+.home table {
+    width: 600px;
+}
+
+.employee table {
+    width: 800px;
+}
+
+.employee tr {
+   font-size:18px;
+}
+
+.timesheet table {
+    word-wrap: break-word;
+    width: 950px;
+}
+.timesheet th {
+   font-size:18px;
+}
+
+.timesheet tr {
+   font-size:16px;
+}
+

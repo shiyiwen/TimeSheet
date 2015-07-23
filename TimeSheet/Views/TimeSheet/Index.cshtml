@@ -1,71 +1,113 @@
 ﻿@model IEnumerable<BusinessLayer.TimeSheet>
-
 @{
     ViewBag.Title = "Index";
 }
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = ("0" + (today.getDate())).slice(-2);
+        var day1 = "01";
+        var mm = ("0" + (today.getMonth() + 1)).slice(-2);
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        firstDateofMonth = yyyy + '-' + mm + '-' + day1;
+        $("#searchInTimeFrom").attr("value", firstDateofMonth);
+        $("#searchInTimeTo").attr("value", today);
+        $("#searchOutTimeFrom").attr("value", firstDateofMonth);
+        $("#searchOutTimeTo").attr("value", today);
+
+        $("#tblTimesheet").tablesorter({
+            headers: {
+                4: {
+                    sorter: false
+                },
+                5: {
+                    sorter: false
+                }
+            }
+        })
+    });
+</script>
+
 <div class="container">
     <h2>Timesheet</h2>
     <div class="timesheet">
-        <div style="text-indent:30px">
+        <div style="padding-left:30px">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-            <p>
-                @Html.Label("Name")
-                @Html.DropDownList("ddlEmployees", null, new { @class = "dropdownlist" })
-                <input type="submit" value="Search" class="button" />
-            </p>
+                <p>
+                    @Html.Label("Name")
+                    @Html.DropDownList("ddlEmployees", null, new { @class = "dropdownlist" })
+                    <br>
+                    @Html.Label("In Time:  ")
+                    @Html.Label("From") 
+                    <input id="searchInTimeFrom" type="date" class="textbox" />
+                    @Html.Label("To")
+                    <input id="searchInTimeTo" type="date" class="textbox" />
+                    <br>
+                    @Html.Label("Out Time:  ")
+                    @Html.Label("From")
+                    <input id="searchOutTimeFrom" type="date" class="textbox" />
+                    @Html.Label("To")
+                    <input id="searchOutTimeTo" type="date" class="textbox" />
+                    <br>
+                    <input type="submit" value="Search" class="button" />
+                </p>
             }
             <br>
         </div>
-        <table>
-            <tr>
-                <th width="10%">
-                    @Html.DisplayNameFor(model => model.employee.FirstName)
-                </th>
-                <th width="10%">
-                    @Html.DisplayNameFor(model => model.employee.LastName)
-                </th>
-                <th width="20%">
-                    @Html.DisplayNameFor(model => model.InTime)
-                </th>
-                <th width="20%">
-                    @Html.DisplayNameFor(model => model.OutTime)
-                </th>
-                <th width ="10%">
-                    @Html.DisplayNameFor(model => model.TotalHours)
-                </th>
-                <th width="30%">
-                    @Html.DisplayNameFor(model => model.TextBox1)
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+        <table id="tblTimesheet">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.employee.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.employee.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OutTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalHours)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TextBox1)
-                    </td>
+                    <th width="15%">
+                        @Html.DisplayNameFor(model => model.employee.FirstName)
+                    </th>
+                    <th width="15%">
+                        @Html.DisplayNameFor(model => model.employee.LastName)
+                    </th>
+                    <th width="20%">
+                        @Html.DisplayNameFor(model => model.InTime)
+                    </th>
+                    <th width="20%">
+                        @Html.DisplayNameFor(model => model.OutTime)
+                    </th>
+                    <th width="10%">
+                        @Html.DisplayNameFor(model => model.TotalHours)
+                    </th>
+                    <th width="20%">
+                        @Html.DisplayNameFor(model => model.TextBox1)
+                    </th>
                 </tr>
-            }
-
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.employee.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.employee.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OutTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalHours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TextBox1)
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
