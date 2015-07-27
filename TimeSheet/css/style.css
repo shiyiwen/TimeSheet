@@ -60,6 +60,7 @@ p {
 .textbox {
     height:25px;
     width: 250px;
+    max-width:85%;
     padding:5px;
     margin:5px;
     font-family:"Lato", sans-serif;
@@ -275,6 +276,14 @@ tr:nth-child(odd) {
 }
 
 tr:nth-child(even) {
+    background-color: #CED8F6;
+}
+
+.showrow tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+.showrow tr:nth-child(even) {
     background-color: #CED8F6;
 }
 

@@ -19,8 +19,9 @@ namespace TimeSheet.Controllers
         public ActionResult Index()
         {
             return View(db.tblEmployees.ToList()
-                .OrderBy(emp => emp.del)
-                .ThenBy(emp => emp.LastName)
+                //.OrderBy(emp => emp.del)
+                //.ThenBy(emp => emp.LastName)
+                .OrderBy(emp => emp.LastName)
                 .ThenBy(emp => emp.FirstName));
         }
 

@@ -10,14 +10,87 @@
     $(document).ready(function () {
         $("table").tablesorter({
             headers: {
-                2: {
-                    sorter: false
-                },
                 3: {
                     sorter: false
                 }
             }
         });
+
+        $("#SearchFirstName").keyup(function () {
+            var rows = $("#tblEmployeeBody").find("tr").hide();
+            if (this.value.length) {
+                var data = $.trim(this.value).split(" ");
+                $.each(data, function (i, v) {
+                    $("#tblEmployeeBody td.col1").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').show();
+                    $("#tblEmployeeBody td.col1").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').addClass("showrow");
+                });
+                $("#SearchLastName").attr('disabled', true);
+                $("#SearchEmail").attr('disabled', true);
+            }
+            else {
+                rows.show();
+                $("#SearchLastName").attr('disabled', false);
+                $("#SearchEmail").attr('disabled', false);
+            }
+        })
+
+        $("#SearchLastName").keyup(function () {
+            var rows = $("#tblEmployeeBody").find("tr").hide();
+            if (this.value.length) {
+                var data = $.trim(this.value).split(" ");
+                $.each(data, function (i, v) {
+                    $("#tblEmployeeBody td.col2").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').show();
+                    $("#tblEmployeeBody td.col2").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').addClass("showrow");
+                });
+                $("#SearchFirstName").attr('disabled', true);
+                $("#SearchEmail").attr('disabled', true);
+            }
+            else {
+                rows.show();
+                $("#SearchFirstName").attr('disabled', false);
+                $("#SearchEmail").attr('disabled', false);
+            }
+        })
+
+        $("#SearchEmail").keyup(function () {
+            var rows = $("#tblEmployeeBody").find("tr").hide();
+            if (this.value.length) {
+                var data = $.trim(this.value).split(" ");
+                $.each(data, function (i, v) {
+                    $("#tblEmployeeBody td.col3").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').show();
+                    $("#tblEmployeeBody td.col3").filter(function () {
+                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
+                    }).parent('tr').addClass("showrow");
+                });
+                $("#SearchFirstName").attr('disabled', true);
+                $("#SearchLastName").attr('disabled', true);
+            }
+            else {
+                rows.show();
+                $("#SearchFirstName").attr('disabled', false);
+                $("#SearchLastName").attr('disabled', false);
+            }
+        })
+
+        $("#ResetEmployeeSearch").click(function () {
+            $('#SearchFirstName').val('');
+            $('#SearchLastName').val('');
+            $('#SearchEmail').val('');
+            $("#SearchFirstName").attr('disabled', false);
+            $("#SearchLastName").attr('disabled', false);
+            $("#SearchEmail").attr('disabled', false);
+            var rows = $("#tblEmployee").find("tr").show();
+        })
     });
 </script>
 
@@ -42,40 +115,52 @@
                     </th>
                     <th> </th>
                 </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model)
-                {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
+                        <input id="SearchFirstName" type="text" placeholder="First Name" class="textbox" />
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
+                        <input id="SearchLastName" type="text" placeholder="Last Name" class="textbox" />
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Email)
+                        <input id="SearchEmail" type="text" placeholder="Email" class="textbox" />
                     </td>
-                    @if (!item.del)
-                    {
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.EmpID }, new { @class = "tblactionlink" })
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" })
-                        </td>
-                    }
+                    <td>
+                        <input id="ResetEmployeeSearch" type="button" value="Reset" class="button" />
+                    </td>
                 </tr>
+            </thead>
+
+            <tbody id="tblEmployeeBody">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="col1">
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td class="col2">
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td class="col3">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        @if (!item.del)
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.EmpID }, new { @class = "tblactionlink" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" })
+                            </td>
+                        }
+                    </tr>
                 }
             </tbody>
-
-
         </table>
     </div>
 </div>
