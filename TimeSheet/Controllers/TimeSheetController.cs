@@ -41,22 +41,37 @@ namespace TimeSheet.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(String ddlEmployees)
+        public ActionResult Index(String ddlEmployees, String searchInTimeFrom, String searchInTimeTo, String searchOutTimeFrom, String searchOutTimeTo)
         {
 
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
 
-            
-            //if (formCollection["ddlEmployees"].ToString()==null)
-            //{
-            //    List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.ALLTimeSheets.ToList();
-            //    return View(timesheets);
-            //}
-            //else
-            //{
-                //Guid empID = Guid.Parse(formCollection["ddlEmployees"]);
-            Guid GuidEmpID = Guid.Parse(ddlEmployees);
-            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheetsByName(GuidEmpID).ToList();
+            Guid? GuidEmpID = new Guid();
+            DateTime? StartInTime=new DateTime();
+            DateTime? StopInTime = new DateTime();
+            DateTime? StartOutTime = new DateTime();
+            DateTime? StopOutTime = new DateTime();
+            if (ddlEmployees.Length > 0)
+                GuidEmpID = Guid.Parse(ddlEmployees);
+            else
+                GuidEmpID = null;
+            if (searchInTimeFrom.Length > 0)
+                StartInTime = DateTime.Parse(searchInTimeFrom);
+            else
+                StartInTime = null;
+            if (searchInTimeTo.Length > 0)
+                StopInTime = DateTime.Parse(searchInTimeTo);
+            else
+                StopInTime = null;
+            if (searchOutTimeFrom.Length > 0)
+                StartOutTime = DateTime.Parse(searchOutTimeFrom);
+            else
+                StartOutTime = null;
+            if (searchOutTimeTo.Length > 0)
+                StopOutTime = DateTime.Parse(searchOutTimeTo);
+            else
+                StopOutTime = null;
+            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
             var ddlemployees = db.tblEmployees
                     .ToList()
                     .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
@@ -66,8 +81,7 @@ namespace TimeSheet.Controllers
                         FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
                     });
             ViewBag.ddlEmployees = new SelectList(ddlemployees, "EmpID", "FullName");
-                return View(timesheets);
-            //}
+            return View(timesheets);
         }
     }
 }

@@ -7,6 +7,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var x = document.cookie;
+        window.alert(x);
         var today = new Date();
         var dd = ("0" + (today.getDate())).slice(-2);
         var day1 = "01";
@@ -14,10 +16,22 @@
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         firstDateofMonth = yyyy + '-' + mm + '-' + day1;
-        $("#searchInTimeFrom").attr("value", firstDateofMonth);
-        $("#searchInTimeTo").attr("value", today);
-        $("#searchOutTimeFrom").attr("value", firstDateofMonth);
-        $("#searchOutTimeTo").attr("value", today);
+
+        if (checkCookie(searchInTimeFrom) && checkCookie(searchInTimeTo) && checkCookie(searchOutTimeFrom) && checkCookie(searchOutTimeTo)) {
+            $("#searchInTimeFrom").attr("value", firstDateofMonth);
+            $("#searchInTimeTo").attr("value", today);
+            $("#searchOutTimeFrom").attr("value", firstDateofMonth);
+            $("#searchOutTimeTo").attr("value", today);
+            alert("ALL NULL");
+        }
+        else {
+            var tb = ["searchInTimeFrom", "searchInTimeTo", "searchOutTimeFrom", "searchOutTimeTo"];
+            $.each(tb, function (i, val) {
+                $("#" + val).val(getCookie(val));
+                //alert("retieve cookie" + val + $("#" + val).val());
+            });
+        }
+
 
         $("#tblTimesheet").tablesorter({
             headers: {
@@ -27,7 +41,28 @@
                 5: {
                     sorter: false
                 }
-            }
+            },
+            widgets: ['zebra']
+        })
+
+        $("#TimesheetSubmit").click(function () {
+            var tb=[ "searchInTimeFrom", "searchInTimeTo", "searchOutTimeFrom", "searchOutTimeTo"];
+            $.each( tb, function( i, val ) {
+                //alert("set cookie"+val +$("#"+val).val());
+                setCookie(val, $("#" + val).val());
+                //alert("get cookie" +getCookie(val));
+            });
+        })
+
+        $("#TimesheetReset").click(function () {
+            alert("TimesheetReset clicked")
+            var tb = ["searchInTimeFrom", "searchInTimeTo", "searchOutTimeFrom", "searchOutTimeTo"];
+            $.each(tb, function (i, val) {
+                //alert("set cookie"+val +$("#"+val).val());
+                deleteAllCookies(val);
+                //alert("get cookie" +getCookie(val));
+            });
+            location.reload(true);
         })
     });
 </script>
@@ -39,24 +74,28 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-                <p>
-                    @Html.Label("Name")
-                    @Html.DropDownList("ddlEmployees", null, new { @class = "dropdownlist" })
-                    <br>
-                    @Html.Label("In Time:  ")
-                    @Html.Label("From") 
-                    <input id="searchInTimeFrom" type="date" class="textbox" />
-                    @Html.Label("To")
-                    <input id="searchInTimeTo" type="date" class="textbox" />
-                    <br>
-                    @Html.Label("Out Time:  ")
-                    @Html.Label("From")
-                    <input id="searchOutTimeFrom" type="date" class="textbox" />
-                    @Html.Label("To")
-                    <input id="searchOutTimeTo" type="date" class="textbox" />
-                    <br>
-                    <input type="submit" value="Search" class="button" />
-                </p>
+            <p>
+                @Html.Label("Name:")
+                @Html.DropDownList("ddlEmployees", null,"-All Employee-",new { @class = "dropdownlist" })
+                <br>
+                @Html.Label("In Time:  ", new { })
+                @Html.Label("From")
+                <input id="searchInTimeFrom" name="searchInTimeFrom" type="date" class="textbox" />
+                @Html.Label("To")
+                <input id="searchInTimeTo" name="searchInTimeTo" type="date" class="textbox" />
+                <br>
+                @Html.Label("Out Time:  ")
+                @Html.Label("From")
+                <input id="searchOutTimeFrom" name="searchOutTimeFrom" type="date" class="textbox" />
+                @Html.Label("To")
+                <input id="searchOutTimeTo" name="searchOutTimeTo" type="date" class="textbox" />
+                <br>
+            </p>
+            <p align="center">
+                <input id="TimesheetSubmit" type="submit" value="Search" class="button" />
+                &nbsp; &nbsp; &nbsp;
+                <input id="TimesheetReset" type="button" value="Reset" class="button" />
+            </p>
             }
             <br>
         </div>

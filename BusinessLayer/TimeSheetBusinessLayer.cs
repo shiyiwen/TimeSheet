@@ -53,42 +53,96 @@ namespace BusinessLayer
 
         public IEnumerable<TimeSheet> TimeSheetsByName (Guid EmpID)
         {
-            //get
-            //{
-                string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
+            string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
 
-                List<TimeSheet> timesheets = new List<TimeSheet>();
+            List<TimeSheet> timesheets = new List<TimeSheet>();
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetTimeSheetByNameorInTimeorOutTime", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = EmpID;
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
                 {
-                    SqlCommand cmd = new SqlCommand("spGetTimeSheetByName", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = EmpID;
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    TimeSheet timesheet = new TimeSheet();
+                    timesheet.employee = new Employee();
+                    timesheet.employee.FirstName = dr["FirstName"].ToString();
+                    timesheet.employee.LastName = dr["LastName"].ToString();
+                    if (!dr.IsDBNull(dr.GetOrdinal("InTime")))
                     {
-                        TimeSheet timesheet = new TimeSheet();
-                        timesheet.employee = new Employee();
-                        timesheet.employee.FirstName = dr["FirstName"].ToString();
-                        timesheet.employee.LastName = dr["LastName"].ToString();
-                        if (!dr.IsDBNull(dr.GetOrdinal("InTime")))
-                        {
-                            timesheet.InTime = Convert.ToDateTime(dr["InTime"]);
-                        }
-                        //timesheet.InTime = dr["InTime"] as DateTime;
-                        if (!dr.IsDBNull(dr.GetOrdinal("OutTime")))
-                        {
-                            timesheet.OutTime = Convert.ToDateTime(dr["OutTime"]);
-                            timesheet.TotalHours = TimeSpan.FromMinutes(System.Convert.ToDouble(dr["TotalHours"]));
-                        }
-                        timesheet.TextBox1 = dr["TextBox1"].ToString();
-                        timesheets.Add(timesheet);
+                        timesheet.InTime = Convert.ToDateTime(dr["InTime"]);
                     }
-                    con.Close();
+                    //timesheet.InTime = dr["InTime"] as DateTime;
+                    if (!dr.IsDBNull(dr.GetOrdinal("OutTime")))
+                    {
+                        timesheet.OutTime = Convert.ToDateTime(dr["OutTime"]);
+                        timesheet.TotalHours = TimeSpan.FromMinutes(System.Convert.ToDouble(dr["TotalHours"]));
+                    }
+                    timesheet.TextBox1 = dr["TextBox1"].ToString();
+                    timesheets.Add(timesheet);
                 }
-                return timesheets;
-            //}
+                con.Close();
+            }
+            return timesheets;
+        }
+
+        public IEnumerable<TimeSheet> TimeSheetsByNameorInTimeofOutTime(Guid? EmpID, DateTime? StartInTime, DateTime? StopInTime, DateTime? StartOutTime, DateTime? StopOutTime)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
+
+            List<TimeSheet> timesheets = new List<TimeSheet>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetTimeSheetByNameorInTimeorOutTime", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (EmpID != null)
+                    cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = EmpID;
+                else
+                    cmd.Parameters.Add("@EmpID", SqlDbType.UniqueIdentifier).Value = DBNull.Value;
+                if (StartInTime != null)
+                    cmd.Parameters.Add("@StartInTime", SqlDbType.DateTime).Value = StartInTime;
+                else
+                    cmd.Parameters.Add("@StartInTime", SqlDbType.DateTime).Value = DBNull.Value;
+                if (StopInTime != null)
+                    cmd.Parameters.Add("@EndInTime", SqlDbType.DateTime).Value = StopInTime;
+                else
+                    cmd.Parameters.Add("@EndInTime", SqlDbType.DateTime).Value = DBNull.Value;
+                if (StartOutTime != null)
+                    cmd.Parameters.Add("@StartOutTime", SqlDbType.DateTime).Value = StartOutTime;
+                else
+                    cmd.Parameters.Add("@StartOutTime", SqlDbType.DateTime).Value = DBNull.Value;
+                if (StopOutTime != null)
+                    cmd.Parameters.Add("@EndOutTime", SqlDbType.DateTime).Value = StopOutTime;
+                else
+                    cmd.Parameters.Add("@EndOutTime", SqlDbType.DateTime).Value = DBNull.Value;
+                
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    TimeSheet timesheet = new TimeSheet();
+                    timesheet.employee = new Employee();
+                    timesheet.employee.FirstName = dr["FirstName"].ToString();
+                    timesheet.employee.LastName = dr["LastName"].ToString();
+                    if (!dr.IsDBNull(dr.GetOrdinal("InTime")))
+                    {
+                        timesheet.InTime = Convert.ToDateTime(dr["InTime"]);
+                    }
+                    //timesheet.InTime = dr["InTime"] as DateTime;
+                    if (!dr.IsDBNull(dr.GetOrdinal("OutTime")))
+                    {
+                        timesheet.OutTime = Convert.ToDateTime(dr["OutTime"]);
+                        timesheet.TotalHours = TimeSpan.FromMinutes(System.Convert.ToDouble(dr["TotalHours"]));
+                    }
+                    timesheet.TextBox1 = dr["TextBox1"].ToString();
+                    timesheets.Add(timesheet);
+                }
+                con.Close();
+            }
+            return timesheets;
         }
 
     }

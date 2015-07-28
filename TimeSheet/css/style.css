@@ -218,12 +218,6 @@ h3 {
   
 }
 
-
-.search input {
-    
-
-}
-
 .filtered{
     border: solid 1px #707070;
     box-shadow: 0 0 5px 1px #969696;
@@ -271,19 +265,7 @@ tr {
    color:#6E6E6E;    
 }
 
-tr:nth-child(odd) {
-    background-color: #FFFFFF;
-}
-
-tr:nth-child(even) {
-    background-color: #CED8F6;
-}
-
-.showrow tr:nth-child(odd) {
-    background-color: #FFFFFF;
-}
-
-.showrow tr:nth-child(even) {
+tr.odd  {
     background-color: #CED8F6;
 }
 

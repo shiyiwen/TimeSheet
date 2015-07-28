@@ -8,12 +8,17 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        updateStriping("#tblEmployeeBody tr");
         $("table").tablesorter({
             headers: {
+                2: {
+                    sorter: false
+                },
                 3: {
                     sorter: false
                 }
-            }
+            },
+            widgets: ['zebra'] 
         });
 
         $("#SearchFirstName").keyup(function () {
@@ -24,18 +29,14 @@
                     $("#tblEmployeeBody td.col1").filter(function () {
                         return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
                     }).parent('tr').show();
-                    $("#tblEmployeeBody td.col1").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').addClass("showrow");
                 });
-                $("#SearchLastName").attr('disabled', true);
-                $("#SearchEmail").attr('disabled', true);
+                $("#SearchLastName, #SearchEmail").attr('disabled', true);
             }
             else {
                 rows.show();
-                $("#SearchLastName").attr('disabled', false);
-                $("#SearchEmail").attr('disabled', false);
+                $("#SearchLastName, #SearchEmail").attr('disabled', false);
             }
+            updateStriping("#tblEmployeeBody tr");
         })
 
         $("#SearchLastName").keyup(function () {
@@ -46,18 +47,14 @@
                     $("#tblEmployeeBody td.col2").filter(function () {
                         return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
                     }).parent('tr').show();
-                    $("#tblEmployeeBody td.col2").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').addClass("showrow");
                 });
-                $("#SearchFirstName").attr('disabled', true);
-                $("#SearchEmail").attr('disabled', true);
+                $("#SearchFirstName, #SearchEmail").attr('disabled', true);
             }
             else {
                 rows.show();
-                $("#SearchFirstName").attr('disabled', false);
-                $("#SearchEmail").attr('disabled', false);
+                $("#SearchFirstName, #SearchEmail").attr('disabled', false);
             }
+            updateStriping("#tblEmployeeBody tr");
         })
 
         $("#SearchEmail").keyup(function () {
@@ -68,28 +65,21 @@
                     $("#tblEmployeeBody td.col3").filter(function () {
                         return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
                     }).parent('tr').show();
-                    $("#tblEmployeeBody td.col3").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').addClass("showrow");
                 });
-                $("#SearchFirstName").attr('disabled', true);
-                $("#SearchLastName").attr('disabled', true);
+                $("#SearchFirstName, #SearchLastName").attr('disabled', true);
             }
             else {
                 rows.show();
-                $("#SearchFirstName").attr('disabled', false);
-                $("#SearchLastName").attr('disabled', false);
+                $("#SearchFirstName, #SearchLastName").attr('disabled', false);
             }
+            updateStriping("#tblEmployeeBody tr");
         })
 
         $("#ResetEmployeeSearch").click(function () {
-            $('#SearchFirstName').val('');
-            $('#SearchLastName').val('');
-            $('#SearchEmail').val('');
-            $("#SearchFirstName").attr('disabled', false);
-            $("#SearchLastName").attr('disabled', false);
-            $("#SearchEmail").attr('disabled', false);
+            $('#SearchFirstName, #SearchLastName, #SearchEmail').val('');
+            $("#SearchFirstName, #SearchLastName, #SearchEmail").attr('disabled', false);
             var rows = $("#tblEmployee").find("tr").show();
+            updateStriping("#tblEmployeeBody tr");
         })
     });
 </script>
@@ -134,7 +124,7 @@
             <tbody id="tblEmployeeBody">
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr class="selected">
                         <td class="col1">
                             @Html.DisplayFor(modelItem => item.FirstName)
                         </td>

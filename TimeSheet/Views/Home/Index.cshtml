@@ -13,6 +13,7 @@
             headers: {
                 2: { sorter: false }
             },
+            widgets: ['zebra']
         });
 
         $("#SearchFirstName").keyup(function () {
@@ -30,6 +31,7 @@
                 rows.show();
                 $("#SearchLastName").attr('disabled', false);
             }
+            updateStriping("#tblHomeBody tr");
         })
 
         $("#SearchLastName").keyup(function () {
@@ -46,15 +48,15 @@
             else {
                 rows.show();
                 $("#SearchFirstName").attr('disabled', false);
-            } 
+            }
+            updateStriping("#tblHomeBody tr");
         })
 
         $("#ResetHomeSearch").click(function () {
-            $('#SearchFirstName').val('');
-            $('#SearchLastName').val('');
-            $("#SearchFirstName").attr('disabled', false);
-            $("#SearchLastName").attr('disabled', false);
+            $('#SearchFirstName, #SearchLastName').val('');
+            $("#SearchFirstName, #SearchLastName").attr('disabled', false);
             var rows = $("#tblHomeBody").find("tr").show();
+            updateStriping("#tblHomeBody tr");
         })
     });
 </script>
