@@ -34,8 +34,3 @@ function checkCookie(cname) {
     }
     return true;
 }
-
-function deleteAllCookies(cname) {
-    alert("delete " + cname + "'s cookie");
-    $.cookie(cname, null, { path: '/' });
-}

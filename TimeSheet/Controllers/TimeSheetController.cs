@@ -60,7 +60,7 @@ namespace TimeSheet.Controllers
             else
                 StartInTime = null;
             if (searchInTimeTo.Length > 0)
-                StopInTime = DateTime.Parse(searchInTimeTo);
+                StopInTime = DateTime.Parse(searchInTimeTo).AddDays(1).AddTicks(-1);
             else
                 StopInTime = null;
             if (searchOutTimeFrom.Length > 0)
@@ -68,7 +68,7 @@ namespace TimeSheet.Controllers
             else
                 StartOutTime = null;
             if (searchOutTimeTo.Length > 0)
-                StopOutTime = DateTime.Parse(searchOutTimeTo);
+                StopOutTime = DateTime.Parse(searchOutTimeTo).AddDays(1).AddTicks(-1);
             else
                 StopOutTime = null;
             List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();

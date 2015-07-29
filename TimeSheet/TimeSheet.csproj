@@ -119,7 +119,6 @@
   <ItemGroup>
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\TimeSheetController.cs" />
-    <Compile Include="Controllers\TimeSheetGridController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,9 +225,6 @@
     <Content Include="Views\Employee\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\TimeSheet\Index1.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -254,21 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Shared\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheetGrid\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheetGrid\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheetGrid\Create.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheetGrid\Edit.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\TimeSheetGrid\Delete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
