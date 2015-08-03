@@ -4,101 +4,58 @@
 }
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var today = new Date();
-        var dd = ("0" + (today.getDate())).slice(-2);
-        var day1 = "01";
-        var mm = ("0" + (today.getMonth() + 1)).slice(-2);
-        var yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd;
-        firstDateofMonth = yyyy + '-' + mm + '-' + day1;
-        var tb = ["searchEmployees", "searchInTimeFrom", "searchInTimeTo", "searchOutTimeFrom", "searchOutTimeTo"];
-
-        if (checkCookie(searchInTimeFrom) && checkCookie(searchInTimeTo) && checkCookie(searchOutTimeFrom) && checkCookie(searchOutTimeTo)) {
-            $("#searchEmployees").val("");
-            $("#searchInTimeFrom, #searchOutTimeFrom").val(firstDateofMonth);
-            $("#searchInTimeTo, #searchOutTimeTo").val(today);
-        }
-        else {
-            $.each(tb, function (i, val) {
-                $("#" + val).val(getCookie(val));
-            });
-        }
-
-        $("#tblTimesheet").tablesorter({
-            headers: {
-                4: {
-                    sorter: false
-                },
-                5: {
-                    sorter: false
-                }
-            },
-            widgets: ['zebra']
-        })
-
-        $("#TimesheetSubmit").click(function () {
-            $.each( tb, function( i, val ) {
-                setCookie(val, $("#" + val).val());
-            });
-        })
-
-        $("#TimesheetReset").click(function () {
-            $("#searchEmployees").val("");
-            $("#searchInTimeFrom, #searchOutTimeFrom").val(firstDateofMonth);
-            $("#searchInTimeTo, #searchOutTimeTo").val(today);
-            $.each(tb, function (i, val) {
-                setCookie(val, $("#" + val).val());
-            });
-        })
-    });
-</script>
+<script type="text/javascript" src="~/js/timesheet.js"></script>
 
 <div class="container">
     <h2>Timesheet</h2>
     <div class="timesheet">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-    <table style="border:none !important">
-        <tr>
-            <td width="15%" align="right">Name: &nbsp; &nbsp;</td>
-            <td width="55%" align="left">
-                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                @Html.DropDownList("ddlEmployees", null, "-All Employee-", new { @id = "searchEmployees", @class = "dropdownlist" })
-            </td>
-        </tr>
-        <tr>
-            <td align="right">In Time: &nbsp; &nbsp;</td>
-            <td align="left">
-                From
-                <input id="searchInTimeFrom" name="searchInTimeFrom" type="date" class="textbox" />
-                To
-                <input id="searchInTimeTo" name="searchInTimeTo" type="date" class="textbox" />
-            </td>
-        </tr>
-        <tr>
-            <td align="right">Out Time: &nbsp; &nbsp;</td>
-            <td align="left">
-                From
-                <input id="searchOutTimeFrom" name="searchOutTimeFrom" type="date" class="textbox" />
-                To
-                <input id="searchOutTimeTo" name="searchOutTimeTo" type="date" class="textbox" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <input id="TimesheetSubmit" type="submit" value="Search" class="button" />
-                &nbsp; &nbsp; &nbsp;
-                <input id="TimesheetReset" type="button" value="Reset" class="button" />
-            </td>
-        </tr>
-    </table>
-            }
-            <br>
-        <table id="tblTimesheet">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <table style="border:none !important">
+                <tr>
+                    <td width="25%" align="right">Name: &nbsp; &nbsp;</td>
+                    <td width="55%" align="left">
+                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+                        @Html.DropDownList("ddlEmployees", null, "-All Employee-", new { @id = "searchEmployees", @class = "dropdownlist" })
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">In Time: &nbsp; &nbsp;</td>
+                    <td align="left">
+                        From
+                        <input id="searchInTimeFrom" name="searchInTimeFrom" type="date" placeholder="mm/dd/yyyy" class="textbox" />
+                        To
+                        <input id="searchInTimeTo" name="searchInTimeTo" type="date" placeholder="mm/dd/yyyy" class="textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Out Time: &nbsp; &nbsp;</td>
+                    <td align="left">
+                        From
+                        <input id="searchOutTimeFrom" name="searchOutTimeFrom" type="date" placeholder="mm/dd/yyyy" class="textbox" />
+                        To
+                        <input id="searchOutTimeTo" name="searchOutTimeTo" type="date" placeholder="mm/dd/yyyy" class="textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input id="TimesheetSubmit" type="submit" value="Search" class="button" />
+                        &nbsp; &nbsp; &nbsp;
+                        <input id="TimesheetReset" type="button" value="Reset" class="button" />'
+                        &nbsp; &nbsp; &nbsp;
+                        <input id="TimesheetThisMonth" type="button" class="button" />
+                        &nbsp; &nbsp; &nbsp;
+                        <input id="TimesheetLastMonth" type="button" class="button" />
+                    </td>
+                </tr>
+            </table>
+        }
+        <br>
+        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
+        @Html.ActionLink("Export to Excel",null,null,new { id="btnExport", @class = "tblactionlink" })
+
+        <table id="tblTimesheet" >
             <thead>
                 <tr>
                     <th width="15%">
@@ -148,5 +105,8 @@
             </tbody>
         </table>
     </div>
+
 </div>
 @RenderPage("~/Shared/_Footer.cshtml")
+
+

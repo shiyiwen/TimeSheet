@@ -6,84 +6,6 @@
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        updateStriping("#tblEmployeeBody tr");
-        $("table").tablesorter({
-            headers: {
-                2: {
-                    sorter: false
-                },
-                3: {
-                    sorter: false
-                }
-            },
-            widgets: ['zebra'] 
-        });
-
-        $("#SearchFirstName").keyup(function () {
-            var rows = $("#tblEmployeeBody").find("tr").hide();
-            if (this.value.length) {
-                var data = $.trim(this.value).split(" ");
-                $.each(data, function (i, v) {
-                    $("#tblEmployeeBody td.col1").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').show();
-                });
-                $("#SearchLastName, #SearchEmail").attr('disabled', true);
-            }
-            else {
-                rows.show();
-                $("#SearchLastName, #SearchEmail").attr('disabled', false);
-            }
-            updateStriping("#tblEmployeeBody tr");
-        })
-
-        $("#SearchLastName").keyup(function () {
-            var rows = $("#tblEmployeeBody").find("tr").hide();
-            if (this.value.length) {
-                var data = $.trim(this.value).split(" ");
-                $.each(data, function (i, v) {
-                    $("#tblEmployeeBody td.col2").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').show();
-                });
-                $("#SearchFirstName, #SearchEmail").attr('disabled', true);
-            }
-            else {
-                rows.show();
-                $("#SearchFirstName, #SearchEmail").attr('disabled', false);
-            }
-            updateStriping("#tblEmployeeBody tr");
-        })
-
-        $("#SearchEmail").keyup(function () {
-            var rows = $("#tblEmployeeBody").find("tr").hide();
-            if (this.value.length) {
-                var data = $.trim(this.value).split(" ");
-                $.each(data, function (i, v) {
-                    $("#tblEmployeeBody td.col3").filter(function () {
-                        return $(this).text().toLowerCase().indexOf(v.toLowerCase()) > -1;
-                    }).parent('tr').show();
-                });
-                $("#SearchFirstName, #SearchLastName").attr('disabled', true);
-            }
-            else {
-                rows.show();
-                $("#SearchFirstName, #SearchLastName").attr('disabled', false);
-            }
-            updateStriping("#tblEmployeeBody tr");
-        })
-
-        $("#ResetEmployeeSearch").click(function () {
-            $('#SearchFirstName, #SearchLastName, #SearchEmail').val('');
-            $("#SearchFirstName, #SearchLastName, #SearchEmail").attr('disabled', false);
-            var rows = $("#tblEmployee").find("tr").show();
-            updateStriping("#tblEmployeeBody tr");
-        })
-    });
-</script>
-
 <div class="container">
     <h2>Employee</h2>
     <p align="center">
@@ -139,13 +61,14 @@
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.EmpID }, new { @class = "tblactionlink" })
+                                @Html.ActionLink("Disable", "Delete", new { id = item.EmpID }, new { @class = "tblactionlink" })
                             </td>
                         }
                         else
                         {
                             <td>
-                                @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" })
+                                @Html.ActionLink("Details", "Details", new { id = item.EmpID }, new { @class = "tblactionlink" }) |
+                                @Html.ActionLink("Enable", "Enable", new { id = item.EmpID }, new { @class = "tblactionlink" })
                             </td>
                         }
                     </tr>
@@ -155,3 +78,5 @@
     </div>
 </div>
 @RenderPage("~/Shared/_Footer.cshtml")
+
+<script type="text/javascript" src="~/js/employee.js"></script>

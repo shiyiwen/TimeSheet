@@ -163,11 +163,16 @@
     <Content Include="css\bg.gif" />
     <Content Include="css\desc.gif" />
     <Content Include="Image\Fitiri_logo.png" />
+    <Content Include="js\home.js" />
+    <Content Include="js\employee.js" />
     <Content Include="js\jquery-latest.js" />
+    <Content Include="js\jquery.base64.js" />
     <Content Include="js\jquery.tablesorter.js" />
     <Content Include="css\style.css" />
     <Content Include="js\jquery-1.3.2.min.js" />
     <Content Include="js\style.js" />
+    <Content Include="js\tableExport.js" />
+    <Content Include="js\timesheet.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -250,6 +255,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Shared\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Employee\Enable.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

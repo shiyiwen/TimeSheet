@@ -1,18 +1,15 @@
 ﻿@model TimeSheet.Models.tblEmployee
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Active";
 }
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
 <div class="container">
-    <h2>Employee | Disable</h2>
-    <h3>Are you sure you want to Disable this employee?</h3>
+    <h2>Employee | Enable</h2>
+    <h3>Are you sure you want to Enable this employee?</h3>
     <fieldset class="fieldset">
         <legend></legend>
-
-        @Html.HiddenFor(model => model.EmpID)
-
         <div class="display-label">
             @Html.DisplayNameFor(model => model.FirstName)
         </div>
@@ -60,9 +57,9 @@
     {
         @Html.AntiForgeryToken()
         <p align="center">
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "button" }) 
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
             &nbsp;&nbsp;&nbsp;
-            <input type="submit" value="Disable" class="button"/>
+            <input type="submit" value="Enable" class="button" />
         </p>
     }
 </div>

@@ -125,6 +125,28 @@ namespace TimeSheet.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Enable(Guid id)
+        {
+            tblEmployee tblemployee = db.tblEmployees.Find(id);
+            if (tblemployee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tblemployee);
+        }
+
+        [HttpPost, ActionName("Enable")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EnableConfirmed(Guid id)
+        {
+            tblEmployee tblemployee = db.tblEmployees.Find(id);
+            tblemployee.LatestModifiedTime = System.DateTime.Now;
+            tblemployee.del = false;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
