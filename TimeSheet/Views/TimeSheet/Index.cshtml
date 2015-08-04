@@ -14,32 +14,48 @@
             @Html.AntiForgeryToken()
             <table style="border:none !important">
                 <tr>
-                    <td width="25%" align="right">Name: &nbsp; &nbsp;</td>
-                    <td width="55%" align="left">
-                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
-                        @Html.DropDownList("ddlEmployees", null, "-All Employee-", new { @id = "searchEmployees", @class = "dropdownlist" })
+                    <td width="25%" align="right">Name: </td>
+                    <td width="5%" align="right"></td>
+                    <td width="20%" align="left">
+                        @Html.DropDownList("ddlAllEmployees", null, "-All Employee-", new { @id = "searchEmployees", @class = "dropdownlist" })
+                        @Html.DropDownList("ddlActiveEmployees", null, "-Active Employee-", new { @id = "searchActiveEmployees", @class = "dropdownlist" })
+                        @Html.DropDownList("ddlInactiveEmployees", null, "-Inactive Employee-", new { @id = "searchInactiveEmployees", @class = "dropdownlist" })
+                        <br>
+                    </td>
+                    <td width="3%" align="right"></td>
+                    <td width="30%" align="left">
+                        @Html.RadioButton("rdbEmployee", "Active", true, new { @id = "rdbActiveEmployee" })
+                        Active
+                        @Html.RadioButton("rdbEmployee", "Inactive", new { @id = "rdbInactiveEmployee" })
+                        Inactive
+                        @Html.RadioButton("rdbEmployee", "All", new { @id = "rdbAllEmployee" })
+                        All
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">In Time: &nbsp; &nbsp;</td>
+                    <td align="right">In Time: </td>
+                    <td align="right">From</td>
                     <td align="left">
-                        From
                         <input id="searchInTimeFrom" name="searchInTimeFrom" type="date" placeholder="mm/dd/yyyy" class="textbox" />
-                        To
+                    </td>
+                    <td align="right">To</td>
+                    <td align="left">
                         <input id="searchInTimeTo" name="searchInTimeTo" type="date" placeholder="mm/dd/yyyy" class="textbox" />
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Out Time: &nbsp; &nbsp;</td>
+                    <td align="right">Out Time: </td>
+                    <td align="right">From</td>
                     <td align="left">
-                        From
                         <input id="searchOutTimeFrom" name="searchOutTimeFrom" type="date" placeholder="mm/dd/yyyy" class="textbox" />
-                        To
+                    </td>
+                    <td align="right">To</td>
+                    <td align="left">
                         <input id="searchOutTimeTo" name="searchOutTimeTo" type="date" placeholder="mm/dd/yyyy" class="textbox" />
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="center">
+                    <td colspan="5" align="center">
                         <input id="TimesheetSubmit" type="submit" value="Search" class="button" />
                         &nbsp; &nbsp; &nbsp;
                         <input id="TimesheetReset" type="button" value="Reset" class="button" />'
@@ -52,8 +68,8 @@
             </table>
         }
         <br>
-        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
-        @Html.ActionLink("Export to Excel",null,null,new { id="btnExport", @class = "tblactionlink" })
+        &nbsp; &nbsp; &nbsp;&nbsp;
+        <input id="btnExport" type="button" style="background-image:url('../../Image/excel.png');background-size: 100%; width:25px; height:25px; background-color:transparent" />
 
         <table id="tblTimesheet" >
             <thead>

@@ -162,6 +162,7 @@
     <Content Include="css\asc.gif" />
     <Content Include="css\bg.gif" />
     <Content Include="css\desc.gif" />
+    <Content Include="Image\excel.png" />
     <Content Include="Image\Fitiri_logo.png" />
     <Content Include="js\home.js" />
     <Content Include="js\employee.js" />

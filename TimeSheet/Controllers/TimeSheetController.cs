@@ -22,7 +22,7 @@ namespace TimeSheet.Controllers
         {
             //var tbltimesheets = db.tblTimeSheets.Include(t => t.tblEmployee);
             // return View(tbltimesheets.ToList());
-            var ddlEmployees = db.tblEmployees
+            var ddlAllEmployees = db.tblEmployees
                                 .ToList()
                                 .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
                                 .Select(emp => new
@@ -30,31 +30,68 @@ namespace TimeSheet.Controllers
                                     EmpID = emp.EmpID,
                                     FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
                                 });
-            ViewBag.ddlEmployees = new SelectList(ddlEmployees, "EmpID", "FullName");
+            var ddlActiveEmployees = db.tblEmployees
+                    .ToList()
+                    .Where(emp => emp.del == false)
+                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
+                    .Select(emp => new
+                    {
+                        EmpID = emp.EmpID,
+                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
+                    });
+            var ddlInactiveEmployees = db.tblEmployees
+                    .ToList()
+                    .Where(emp => emp.del == true)
+                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
+                    .Select(emp => new
+                    {
+                        EmpID = emp.EmpID,
+                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
+                    });
+            ViewBag.ddlAllEmployees = new SelectList(ddlAllEmployees, "EmpID", "FullName");
+            ViewBag.ddlActiveEmployees = new SelectList(ddlActiveEmployees, "EmpID", "FullName");
+            ViewBag.ddlInactiveEmployees = new SelectList(ddlInactiveEmployees, "EmpID", "FullName");
+
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
 
             List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.ALLTimeSheets.ToList();
             return View(timesheets);
-            //return Json(timesheets, JsonRequestBehavior.AllowGet);
+
         }
 
-
-
         [HttpPost]
-        public ActionResult Index(String ddlEmployees, String searchInTimeFrom, String searchInTimeTo, String searchOutTimeFrom, String searchOutTimeTo)
+        public ActionResult Index(String ddlAllEmployees, String ddlActiveEmployees, String ddlInactiveEmployees, 
+            String rdbEmployee, String searchInTimeFrom, String searchInTimeTo, String searchOutTimeFrom, String searchOutTimeTo)
         {
 
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
-
+            
             Guid? GuidEmpID = new Guid();
             DateTime? StartInTime=new DateTime();
             DateTime? StopInTime = new DateTime();
             DateTime? StartOutTime = new DateTime();
             DateTime? StopOutTime = new DateTime();
-            if (ddlEmployees.Length > 0)
-                GuidEmpID = Guid.Parse(ddlEmployees);
-            else
-                GuidEmpID = null;
+            switch(rdbEmployee){
+                case "All":
+                    if (ddlAllEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlAllEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+                case "Active":
+                    if (ddlActiveEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlActiveEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+                case "Inactive":
+                    if (ddlInactiveEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlInactiveEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+            }
+
             if (searchInTimeFrom.Length > 0)
                 StartInTime = DateTime.Parse(searchInTimeFrom);
             else
@@ -71,7 +108,13 @@ namespace TimeSheet.Controllers
                 StopOutTime = DateTime.Parse(searchOutTimeTo).AddDays(1).AddTicks(-1);
             else
                 StopOutTime = null;
-            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
+            List<BusinessLayer.TimeSheet> timesheets=new List<BusinessLayer.TimeSheet>();
+            if (rdbEmployee == "Active" && GuidEmpID == null)
+                timesheets = timesheetbusinesslayer.ActiveEmpTimeSheetsByInTimeofOutTime(StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
+            else if(rdbEmployee == "Inactive" && GuidEmpID == null)
+                timesheets = timesheetbusinesslayer.InactiveEmpTimeSheetsByInTimeofOutTime(StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
+            else
+                timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
             var ddlemployees = db.tblEmployees
                     .ToList()
                     .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
@@ -80,7 +123,27 @@ namespace TimeSheet.Controllers
                         EmpID = emp.EmpID,
                         FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
                     });
-            ViewBag.ddlEmployees = new SelectList(ddlemployees, "EmpID", "FullName");
+            var ddlactiveEmployees = db.tblEmployees
+                    .ToList()
+                    .Where(emp => emp.del == false)
+                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
+                    .Select(emp => new
+                    {
+                        EmpID = emp.EmpID,
+                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
+                    });
+            var ddlinactiveEmployees = db.tblEmployees
+                    .ToList()
+                    .Where(emp => emp.del == true)
+                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
+                    .Select(emp => new
+                    {
+                        EmpID = emp.EmpID,
+                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
+                    });
+            ViewBag.ddlAllEmployees = new SelectList(ddlemployees, "EmpID", "FullName");
+            ViewBag.ddlActiveEmployees = new SelectList(ddlactiveEmployees, "EmpID", "FullName");
+            ViewBag.ddlInactiveEmployees = new SelectList(ddlinactiveEmployees, "EmpID", "FullName");
             return View(timesheets);
         }
     }

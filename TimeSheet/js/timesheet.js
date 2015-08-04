@@ -75,7 +75,10 @@
         });
     })
 
-
+    showDropDownList();
+    $("input[name=rdbEmployee]:radio").change(function () {
+        showDropDownList();
+    });
 
 });
 
@@ -100,4 +103,23 @@ function checkCookie(cname) {
         return false;
     }
     return true;
+}
+
+function showDropDownList() {
+    $("#searchEmployees").hide();
+    $("#searchActiveEmployees").hide();
+    $("#searchInactiveEmployees").hide();
+    var type = $('input:radio[name=rdbEmployee]:checked').val();
+    //alert("from showDropDownList"+type);
+    switch(type){
+        case "All":
+            $("#searchEmployees").show();
+            break;
+        case "Active":
+            $("#searchActiveEmployees").show();
+            break;
+        case "Inactive":
+            $("#searchInactiveEmployees").show();
+            break;
+    }
 }
