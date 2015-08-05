@@ -5,6 +5,7 @@
 a {
     text-decoration: none;
 }
+
 a.actionlink:link { 
     color: #1FC4FA 
 }
@@ -108,21 +109,74 @@ p {
 .navigation {
     background: white;
     font-family: 'Lato', sans-serif;
-    line-height: 40px;
     text-align:right;
-    padding-right:15px;
+    line-height:40px;
     border-bottom:solid 4px #1FC4FA;
 }
+
 .navigation ul {
     list-style:none;
     color: #1FC4FA;
     font-size:20px;
 }
-.navigation li {
+
+.navigation ul li {
     display:inline;
-    padding-right: 5px;
-    color: #1FC4FA;
-    text-decoration: none;
+    position: relative; 
+    padding:10px;    
+}
+
+.navigation ul li a {
+    color:  #1FC4FA;
+}
+.navigation ul li:hover {
+    background:#1FC4FA;
+    -webkit-transition:0.25s ease-out;
+}
+
+.navigation ul li > ul{
+    display:none;
+	position:absolute;
+	top:100%;
+	left:0;
+    background-color: #CED8F6;
+    border: #CED8F6 solid 2px;
+    border-radius:0 0 4px 4px;
+	padding:0;
+    text-align:left;  
+    font-size:18px;
+    width: 150px;
+}
+
+.navigation ul li:hover >a {
+    color:#ffffff;
+}
+
+.navigation ul li:hover > ul{
+	display:block
+}
+
+.navigation ul li > ul li{
+    display:block;
+    padding:4px 6px;
+    margin:2px;
+    width:86%;
+    line-height:normal;
+}
+
+.navigation ul li > ul li a{
+    color:  #122C69;  
+}
+
+.navigation ul li > ul li:hover
+{
+    border:solid 2px #ffffff;
+    border-radius:4px;
+    background:#ffffff;
+}
+
+.navigation ul li > ul li:hover >a {
+    color:#1FC4FA;
 }
 
 .footer {
@@ -276,4 +330,9 @@ tr.odd  {
     width: 950px;
 }
 
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 

@@ -146,5 +146,18 @@ namespace TimeSheet.Controllers
             ViewBag.ddlInactiveEmployees = new SelectList(ddlinactiveEmployees, "EmpID", "FullName");
             return View(timesheets);
         }
+
+
+        [HttpGet]
+        public ActionResult ViewChart()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult MakeChart()
+        {
+            return View();
+        }
     }
 }

@@ -15,11 +15,18 @@
         <div class="container">
             <div class="navigation">
                 <ul>
-                    <li>    @Html.ActionLink("HOME", "index", "Home",null, new { @class = "actionlink" }) </li>
-                    <li>|</li>
-                    <li>    @Html.ActionLink("EMPLOYEE", "index", "Employee", null, new { @class = "actionlink" }) </li>
-                    <li>|</li>
-                    <li>    @Html.ActionLink("TIMESHEET", "index", "TimeSheet", null, new { @class = "actionlink" }) </li>
+                    <li>
+                        @Html.ActionLink("HOME", "index", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink("EMPLOYEE", "index", "Employee")
+                    </li>
+                    <li>    @Html.ActionLink("TIMESHEET", "index", "TimeSheet") 
+                        <ul>
+                            <li>    @Html.ActionLink("TABLE", "index", "TimeSheet")  </li>
+                            <li>    @Html.ActionLink("CHART", "viewChart", "TimeSheet") </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
