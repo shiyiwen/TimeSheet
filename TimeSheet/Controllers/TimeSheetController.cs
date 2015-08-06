@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using TimeSheet.Models;
 using BusinessLayer;
 using Infragistics.Web.Mvc;
+using System.Collections;
+using System.Web.Script.Serialization;
 
 namespace TimeSheet.Controllers
 {
@@ -151,12 +153,26 @@ namespace TimeSheet.Controllers
         [HttpGet]
         public ActionResult ViewChart()
         {
+            tsChartData cd1 = new tsChartData {TimeRange="Pini",IntimeCount=111,OuttimeCount=30};
+            tsChartData cd2 = new tsChartData {TimeRange="Yaniv",IntimeCount=15,OuttimeCount=222};
+            tsChartData cd3 = new tsChartData {TimeRange="Yoni",IntimeCount=11,OuttimeCount=111};
+
+            List<tsChartData> cdList = new List<tsChartData>() { cd1, cd2, cd3 };
+
+            string jsonstr = new JavaScriptSerializer().Serialize(cd1);
+            Response.Write(jsonstr);
+
+
+            ViewBag.dataJSON = jsonstr;
+
             return View();
         }
 
         [HttpGet]
         public ActionResult MakeChart()
         {
+            ViewBag.xline = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
+            ViewBag.yline = new[] { "2", "6", "10", "5", "3" };
             return View();
         }
     }

@@ -152,6 +152,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TimeSheetModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\tsChartData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
