@@ -10,6 +10,7 @@ using BusinessLayer;
 using Infragistics.Web.Mvc;
 using System.Collections;
 using System.Web.Script.Serialization;
+using System.Globalization;
 
 namespace TimeSheet.Controllers
 {
@@ -22,37 +23,7 @@ namespace TimeSheet.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //var tbltimesheets = db.tblTimeSheets.Include(t => t.tblEmployee);
-            // return View(tbltimesheets.ToList());
-            var ddlAllEmployees = db.tblEmployees
-                                .ToList()
-                                .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
-                                .Select(emp => new
-                                {
-                                    EmpID = emp.EmpID,
-                                    FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
-                                });
-            var ddlActiveEmployees = db.tblEmployees
-                    .ToList()
-                    .Where(emp => emp.del == false)
-                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
-                    .Select(emp => new
-                    {
-                        EmpID = emp.EmpID,
-                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
-                    });
-            var ddlInactiveEmployees = db.tblEmployees
-                    .ToList()
-                    .Where(emp => emp.del == true)
-                    .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
-                    .Select(emp => new
-                    {
-                        EmpID = emp.EmpID,
-                        FullName = string.Format("{0} {1}", emp.FirstName, emp.LastName)
-                    });
-            ViewBag.ddlAllEmployees = new SelectList(ddlAllEmployees, "EmpID", "FullName");
-            ViewBag.ddlActiveEmployees = new SelectList(ddlActiveEmployees, "EmpID", "FullName");
-            ViewBag.ddlInactiveEmployees = new SelectList(ddlInactiveEmployees, "EmpID", "FullName");
+            initEmpDDL();
 
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
 
@@ -65,6 +36,7 @@ namespace TimeSheet.Controllers
         public ActionResult Index(String ddlAllEmployees, String ddlActiveEmployees, String ddlInactiveEmployees, 
             String rdbEmployee, String searchInTimeFrom, String searchInTimeTo, String searchOutTimeFrom, String searchOutTimeTo)
         {
+            initEmpDDL();
 
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
             
@@ -117,6 +89,65 @@ namespace TimeSheet.Controllers
                 timesheets = timesheetbusinesslayer.InactiveEmpTimeSheetsByInTimeofOutTime(StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
             else
                 timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
+
+            return View(timesheets);
+        }
+
+
+        [HttpGet]
+        public ActionResult ViewChart()
+        {
+            initEmpDDL();
+            initDateDDL();
+            string[] TimeRangeArr=new string[48];
+            TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
+            List<tsChartData> cdList = new List<tsChartData>();
+
+            for (int i = 0; i <= 23; i++) {
+                TimeRangeArr[i * 2] = i.ToString() + ":00~" + i.ToString() + ":30";
+                TimeRangeArr[i * 2 + 1] = i.ToString() + ":30~"+(i+1).ToString() + ":00";
+            }
+
+            foreach (string TimeRangeItem in TimeRangeArr)
+            {
+                char[] delimiterChars = {':', '~' };
+                string[] timeElmt = TimeRangeItem.Split(delimiterChars);
+                int CourtInTime=timesheetbusinesslayer.CountInTime(2015,7,Int32.Parse(timeElmt[0]),Int32.Parse(timeElmt[1]),Int32.Parse(timeElmt[2]),Int32.Parse(timeElmt[3]));
+                //int CourtInTime = timesheetbusinesslayer.CountInTime(2015, 7, 11,0,11,30);
+                
+                int CourtOutTime = timesheetbusinesslayer.CountOutTime(2015, 7, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+                tsChartData cdItem = new tsChartData { TimeRange = TimeRangeItem, IntimeCount = CourtInTime, OuttimeCount = CourtOutTime };
+                cdList.Add(cdItem);
+            }
+            return View(cdList);
+        }
+
+        public void initDateDDL()
+        {
+            
+            ViewBag.ddlYear = Enumerable.Range(2015, System.DateTime.Now.Year-2014)
+                           .Select(x => new SelectListItem
+                           {
+                                Text=x.ToString(),
+                                Value=x.ToString()
+                           });
+            ViewBag.ddlMonth = new List<SelectListItem> { 
+                new SelectListItem { Text = "January", Value = "1" },
+                new SelectListItem { Text = "February", Value = "2" },
+                new SelectListItem { Text = "March", Value = "3" },
+                new SelectListItem { Text = "April", Value = "4" },
+                new SelectListItem { Text = "May", Value = "5" },
+                new SelectListItem { Text = "June", Value = "6" },
+                new SelectListItem { Text = "July", Value = "7" },
+                new SelectListItem { Text = "August", Value = "8" },
+                new SelectListItem { Text = "September", Value = "9" },
+                new SelectListItem { Text = "October", Value = "10" },
+                new SelectListItem { Text = "November", Value = "11" },
+                new SelectListItem { Text = "December", Value = "12" }
+            };
+        }
+
+        public void initEmpDDL(){
             var ddlemployees = db.tblEmployees
                     .ToList()
                     .OrderBy(emp => emp.LastName).ThenBy(emp => emp.FirstName)
@@ -146,34 +177,6 @@ namespace TimeSheet.Controllers
             ViewBag.ddlAllEmployees = new SelectList(ddlemployees, "EmpID", "FullName");
             ViewBag.ddlActiveEmployees = new SelectList(ddlactiveEmployees, "EmpID", "FullName");
             ViewBag.ddlInactiveEmployees = new SelectList(ddlinactiveEmployees, "EmpID", "FullName");
-            return View(timesheets);
-        }
-
-
-        [HttpGet]
-        public ActionResult ViewChart()
-        {
-            tsChartData cd1 = new tsChartData {TimeRange="Pini",IntimeCount=111,OuttimeCount=30};
-            tsChartData cd2 = new tsChartData {TimeRange="Yaniv",IntimeCount=15,OuttimeCount=222};
-            tsChartData cd3 = new tsChartData {TimeRange="Yoni",IntimeCount=11,OuttimeCount=111};
-
-            List<tsChartData> cdList = new List<tsChartData>() { cd1, cd2, cd3 };
-
-            string jsonstr = new JavaScriptSerializer().Serialize(cd1);
-            Response.Write(jsonstr);
-
-
-            ViewBag.dataJSON = jsonstr;
-
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult MakeChart()
-        {
-            ViewBag.xline = new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" };
-            ViewBag.yline = new[] { "2", "6", "10", "5", "3" };
-            return View();
         }
     }
 }

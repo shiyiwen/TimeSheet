@@ -145,7 +145,7 @@ namespace BusinessLayer
             return timesheets;
         }
 
-                public IEnumerable<TimeSheet> ActiveEmpTimeSheetsByInTimeofOutTime(DateTime? StartInTime, DateTime? StopInTime, DateTime? StartOutTime, DateTime? StopOutTime)
+        public IEnumerable<TimeSheet> ActiveEmpTimeSheetsByInTimeofOutTime(DateTime? StartInTime, DateTime? StopInTime, DateTime? StartOutTime, DateTime? StopOutTime)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
 
@@ -249,6 +249,62 @@ namespace BusinessLayer
                 con.Close();
             }
             return timesheets;
+        }
+
+        public int CountInTime(int year, int month, int startHour, int startMinute, int stopHour, int stopMinute)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
+
+            List<TimeSheet> timesheets = new List<TimeSheet>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetCountofInTime", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+                cmd.Parameters.Add("@Month", SqlDbType.Int).Value = month;
+                cmd.Parameters.Add("@StartHour", SqlDbType.Int).Value = startHour;
+                cmd.Parameters.Add("@StartMinute", SqlDbType.Int).Value = startMinute;
+                cmd.Parameters.Add("@EndHour", SqlDbType.Int).Value = stopHour;
+                cmd.Parameters.Add("@EndMinute", SqlDbType.Int).Value = stopMinute;
+                cmd.Parameters.Add("@TimesheetCount", SqlDbType.Int).Direction=ParameterDirection.Output;
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                int Count = int.Parse(cmd.Parameters["@TimesheetCount"].Value.ToString());
+
+                con.Close();
+                return Count;
+            }
+        }
+
+        public int CountOutTime(int year, int month, int startHour, int startMinute, int stopHour, int stopMinute)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["TSDB"].ConnectionString;
+
+            List<TimeSheet> timesheets = new List<TimeSheet>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spGetCountofOutTime", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+                cmd.Parameters.Add("@Month", SqlDbType.Int).Value = month;
+                cmd.Parameters.Add("@StartHour", SqlDbType.Int).Value = startHour;
+                cmd.Parameters.Add("@StartMinute", SqlDbType.Int).Value = startMinute;
+                cmd.Parameters.Add("@EndHour", SqlDbType.Int).Value = stopHour;
+                cmd.Parameters.Add("@EndMinute", SqlDbType.Int).Value = stopMinute;
+                cmd.Parameters.Add("@TimesheetCount", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+
+                int Count = int.Parse(cmd.Parameters["@TimesheetCount"].Value.ToString());
+
+                con.Close();
+                return Count;
+            }
         }
     }
 }
