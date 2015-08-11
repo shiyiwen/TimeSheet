@@ -25,9 +25,14 @@ namespace TimeSheet.Controllers
         {
             initEmpDDL();
 
+            DateTime date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
 
-            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.ALLTimeSheets.ToList();
+            //List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.ALLTimeSheets.ToList();
+            List<BusinessLayer.TimeSheet> timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeorOutTime(null, false, firstDayOfMonth, lastDayOfMonth, firstDayOfMonth, lastDayOfMonth).ToList();
             return View(timesheets);
 
         }
@@ -41,24 +46,28 @@ namespace TimeSheet.Controllers
             TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
             
             Guid? GuidEmpID = new Guid();
+            Boolean? Del = new Boolean();
             DateTime? StartInTime=new DateTime();
             DateTime? StopInTime = new DateTime();
             DateTime? StartOutTime = new DateTime();
             DateTime? StopOutTime = new DateTime();
             switch(rdbEmployee){
                 case "All":
+                    Del = null;
                     if (ddlAllEmployees.Length > 0)
                         GuidEmpID = Guid.Parse(ddlAllEmployees);
                     else
                         GuidEmpID = null;
                     break;
                 case "Active":
+                    Del = false;
                     if (ddlActiveEmployees.Length > 0)
                         GuidEmpID = Guid.Parse(ddlActiveEmployees);
                     else
                         GuidEmpID = null;
                     break;
                 case "Inactive":
+                    Del = true;
                     if (ddlInactiveEmployees.Length > 0)
                         GuidEmpID = Guid.Parse(ddlInactiveEmployees);
                     else
@@ -83,12 +92,7 @@ namespace TimeSheet.Controllers
             else
                 StopOutTime = null;
             List<BusinessLayer.TimeSheet> timesheets=new List<BusinessLayer.TimeSheet>();
-            if (rdbEmployee == "Active" && GuidEmpID == null)
-                timesheets = timesheetbusinesslayer.ActiveEmpTimeSheetsByInTimeofOutTime(StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
-            else if(rdbEmployee == "Inactive" && GuidEmpID == null)
-                timesheets = timesheetbusinesslayer.InactiveEmpTimeSheetsByInTimeofOutTime(StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
-            else
-                timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeofOutTime(GuidEmpID, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
+            timesheets = timesheetbusinesslayer.TimeSheetsByNameorInTimeorOutTime(GuidEmpID, Del, StartInTime, StopInTime, StartOutTime, StopOutTime).ToList();
 
             return View(timesheets);
         }
@@ -112,15 +116,79 @@ namespace TimeSheet.Controllers
             {
                 char[] delimiterChars = {':', '~' };
                 string[] timeElmt = TimeRangeItem.Split(delimiterChars);
-                int CourtInTime=timesheetbusinesslayer.CountInTime(2015,7,Int32.Parse(timeElmt[0]),Int32.Parse(timeElmt[1]),Int32.Parse(timeElmt[2]),Int32.Parse(timeElmt[3]));
+                int CourtInTime = timesheetbusinesslayer.CountInTime(null, false, System.DateTime.Now.Year, System.DateTime.Now.Month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
                 //int CourtInTime = timesheetbusinesslayer.CountInTime(2015, 7, 11,0,11,30);
-                
-                int CourtOutTime = timesheetbusinesslayer.CountOutTime(2015, 7, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+
+                int CourtOutTime = timesheetbusinesslayer.CountOutTime(null, false, System.DateTime.Now.Year, System.DateTime.Now.Month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
                 tsChartData cdItem = new tsChartData { TimeRange = TimeRangeItem, IntimeCount = CourtInTime, OuttimeCount = CourtOutTime };
                 cdList.Add(cdItem);
             }
             return View(cdList);
         }
+
+        [HttpPost]
+        public ActionResult ViewChart(String ddlAllEmployees, String ddlActiveEmployees, String ddlInactiveEmployees,
+            String rdbEmployee, string ddlYear, string ddlMonth)
+        {
+            initEmpDDL();
+            initDateDDL();
+
+            Guid? GuidEmpID = new Guid();
+            Boolean? del = new Boolean();
+            switch (rdbEmployee)
+            {
+                case "All":
+                    del = null;
+                    if (ddlAllEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlAllEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+                case "Active":
+                    del = false;
+                    if (ddlActiveEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlActiveEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+                case "Inactive":
+                    del = true;
+                    if (ddlInactiveEmployees.Length > 0)
+                        GuidEmpID = Guid.Parse(ddlInactiveEmployees);
+                    else
+                        GuidEmpID = null;
+                    break;
+            }
+
+            string[] TimeRangeArr = new string[48];
+            TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
+            List<tsChartData> cdList = new List<tsChartData>();
+
+            for (int i = 0; i <= 23; i++)
+            {
+                TimeRangeArr[i * 2] = i.ToString() + ":00~" + i.ToString() + ":30";
+                TimeRangeArr[i * 2 + 1] = i.ToString() + ":30~" + (i + 1).ToString() + ":00";
+            }
+
+            int year = int.Parse(ddlYear);
+            int? month;
+            if (ddlMonth.Length > 0)
+                month = int.Parse(ddlMonth);
+            else
+                month = null;
+            
+            foreach (string TimeRangeItem in TimeRangeArr)
+            {
+                char[] delimiterChars = { ':', '~' };
+                string[] timeElmt = TimeRangeItem.Split(delimiterChars);
+                int CourtInTime = timesheetbusinesslayer.CountInTime(GuidEmpID, del, year, month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+                int CourtOutTime = timesheetbusinesslayer.CountOutTime(GuidEmpID, del, year, month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+                tsChartData cdItem = new tsChartData { TimeRange = TimeRangeItem, IntimeCount = CourtInTime, OuttimeCount = CourtOutTime };
+                cdList.Add(cdItem);
+            }
+            return View(cdList);
+        }
+
 
         public void initDateDDL()
         {

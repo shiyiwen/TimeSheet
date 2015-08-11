@@ -175,6 +175,7 @@
     <Content Include="js\style.js" />
     <Content Include="js\tableExport.js" />
     <Content Include="js\timesheet.js" />
+    <Content Include="js\timesheetChart.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

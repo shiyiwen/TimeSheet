@@ -7,61 +7,32 @@
 @RenderPage("~/Shared/_Header.cshtml")
 @RenderPage("~/Shared/_Navigation.cshtml")
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript" src="~/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="~/js/timesheetChart.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        showDropDownList();
-        $("input[name=rdbEmployee]:radio").change(function () {
-            showDropDownList();
-        });
-    })
+
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawChart);
-
     function drawChart() {
-        //alert("!!!");
+        var chartTitle=getChartTitle();
         var result = [["Timerange", "In Time", "Out Time"]];
         var result_item;
         var tsDatas = @Html.Raw(Json.Encode(Model));
-        //alert(tsDatas);
 
         for (var i = 0; i < tsDatas.length; i++) {
             var tsData = tsDatas[i];
-            //alert('OuttimeCount: ' + tsData.IntimeCount+ ' OuttimeCount:' + tsData.OuttimeCount);
             result_item = [tsData.TimeRange, tsData.IntimeCount, tsData.OuttimeCount];
-            //alert(result_item);
             result.push(result_item);
         }
-        //alert(result);
 
         var data = google.visualization.arrayToDataTable(result);
         var options = {
-            title: 'Timesheet Chart',
+            title: chartTitle,
             hAxis: { title: 'Time Range', titleTextStyle: { color: '#333' } },
             vAxis: { minValue: 0,format: 'decimal'}
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-    }
-
-    function showDropDownList() {
-        $("#searchEmployees").hide();
-        $("#searchActiveEmployees").hide();
-        $("#searchInactiveEmployees").hide();
-        var type = $('input:radio[name=rdbEmployee]:checked').val();
-        //alert("from showDropDownList"+type);
-        switch(type){
-            case "All":
-                $("#searchEmployees").show();
-                break;
-            case "Active":
-                $("#searchActiveEmployees").show();
-                break;
-            case "Inactive":
-                $("#searchInactiveEmployees").show();
-                break;
-        }
     }
 </script>
 
@@ -71,42 +42,48 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <table style="border:none !important">
-                <tr>
-                    <td width="25%" align="right">Name: </td>
-                    <td width="25%" align="left">
-                        @Html.DropDownList("ddlAllEmployees", null, "-All Employee-", new { @id = "searchEmployees", @class = "dropdownlist" })
-                        @Html.DropDownList("ddlActiveEmployees", null, "-Active Employee-", new { @id = "searchActiveEmployees", @class = "dropdownlist" })
-                        @Html.DropDownList("ddlInactiveEmployees", null, "-Inactive Employee-", new { @id = "searchInactiveEmployees", @class = "dropdownlist" })
-                        <br>
-                    </td>
-                    <td colspan="2"  align="left">
-                        @Html.RadioButton("rdbEmployee", "Active", true, new { @id = "rdbActiveEmployee" })
-                        Active
-                        @Html.RadioButton("rdbEmployee", "Inactive", new { @id = "rdbInactiveEmployee" })
-                        Inactive
-                        @Html.RadioButton("rdbEmployee", "All", new { @id = "rdbAllEmployee" })
-                        All
-                    </td>
-                </tr>
-                <tr>
-                    <td width="25%" align="right" >Year </td>
-                    <td width="25%" align="left">
-                        @Html.DropDownList("ddlYear", null, "-Year-", new { @id = "searchMonth", @class = "dropdownlist" })
-                    </td>
-                    <td width="10%" align="right" >Month</td>
-                    <td width="40%" align="left">
-                        @Html.DropDownList("ddlMonth", null, "-Month-", new { @id = "searchMonth", @class = "dropdownlist" })
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" align="center">
-                        <input id="TimesheetSubmit" type="submit" value="Search" class="button" />
-                        &nbsp; &nbsp; &nbsp;
-                        <input id="TimesheetReset" type="button" value="Reset" class="button" />
-                    </td>
-                </tr>
-            </table>
+    <table style="border:none !important">
+        <tr>
+            <td width="25%" align="right">Name </td>
+            <td width="25%" align="left">
+                @Html.DropDownList("ddlAllEmployees", null, "-All Employee-", new { @id = "ddlAllEmployees", @class = "dropdownlist" })
+                @Html.DropDownList("ddlActiveEmployees", null, "-Active Employee-", new { @id = "ddlActiveEmployees", @class = "dropdownlist" })
+                @Html.DropDownList("ddlInactiveEmployees", null, "-Inactive Employee-", new { @id = "ddlInactiveEmployees", @class = "dropdownlist" })
+                <br>
+            </td>
+            <td width="50%" align="left">
+                @Html.RadioButton("rdbEmployee", "Active", true, new { @id = "rdbActiveEmployee" })
+                Active
+                @Html.RadioButton("rdbEmployee", "Inactive", new { @id = "rdbInactiveEmployee" })
+                Inactive
+                @Html.RadioButton("rdbEmployee", "All", new { @id = "rdbAllEmployee" })
+                All
+            </td>
+        </tr>
+        <tr>
+            <td align="right">Year <font color="red">*</font></td>
+            <td align="left">
+                @Html.DropDownList("ddlYear", null, "-Year-", new { @id = "ddlYear", @class = "dropdownlist" })
+            </td>
+            <td align="left">
+                Month
+                @Html.DropDownList("ddlMonth", null, "-Month-", new { @id = "ddlMonth", @class = "dropdownlist" })
+            </td>
+        </tr>
+        <tr style ="height:15px !important">
+            <td width="25%"></td>
+            <td colspan="2" align="left">
+                <label class="display-field" style="padding:0px; margin:0px !important" id="lbYear"></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <input id="ChartSubmit" type="submit" value="Search" class="button" />
+                &nbsp; &nbsp; &nbsp;
+                <input id="ChartReset" type="button" value="Reset" class="button" />
+            </td>
+        </tr>
+    </table>
         }
     </div>
         <div id="chart_div" style="width: 900px; height: 500px;"></div>
