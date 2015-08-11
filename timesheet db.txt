@@ -1,0 +1,148 @@
+CREATE TABLE [dbo].[tblEmployee](
+	[EmpID] [uniqueidentifier] NOT NULL,
+	[FirstName] [varchar](20) NOT NULL,
+	[LastName] [varchar](20) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[CreateTime] [datetime] NOT NULL,
+	[LatestModifiedTime] [datetime] NOT NULL,
+	[InOffice] [bit] NOT NULL,
+	[del] [bit] NOT NULL,
+ CONSTRAINT [PK_tblEmployee] PRIMARY KEY CLUSTERED 
+(
+	[EmpID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+CREATE TABLE [dbo].[tblTimeSheet](
+	[ID] [uniqueidentifier] NOT NULL,
+	[EmpID] [uniqueidentifier] NOT NULL,
+	[InTime] [datetime] NULL,
+	[OutTime] [datetime] NULL,
+	[TextBox1] [varchar](200) NULL,
+	[TextBox2] [varchar](200) NULL,
+	[TextBox3] [varchar](200) NULL,
+ CONSTRAINT [PK_tblTimeSheet] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+
+CREATE proc [dbo].[spGetAllEmployee]
+as
+begin
+Select FirstName, LastName
+from tblEmployee
+order by LastName, FirstName asc
+end
+
+
+CREATE proc [dbo].[spGetCountofInTime]
+@EmpID uniqueidentifier = null,
+@Del bit =null,
+@Year int,
+@Month int =null ,
+@StartHour int,
+@StartMinute int,
+@EndHour int,
+@EndMinute int,
+@TimesheetCount int OUTPUT
+as
+begin
+if (@EndMinute=0)
+begin
+	SELECT @TimesheetCount=count([ID])
+	from tblTimeSheet ts left join tblEmployee emp
+	on ts.EmpID=emp.EmpID
+	where (@EmpID IS NULL OR (emp.EmpID=@EmpID))
+	AND (@Del IS NULL OR (del=@Del))
+	AND datepart(YEAR, [InTime])=@Year
+	AND (@Month  IS NULL OR (datepart(MONTH, [InTime])=@Month))
+	AND ((datepart(HOUR, [InTime])=@StartHour
+	AND datepart(MINUTE, [InTime])>@StartMinute)
+	OR (datepart(HOUR, [InTime])=@EndHour
+	AND datepart(MINUTE, [InTime])<=@EndMinute))
+
+end
+else
+begin
+	SELECT @TimesheetCount=count([ID])
+	from tblTimeSheet ts left join tblEmployee emp
+	on ts.EmpID=emp.EmpID
+	where (@EmpID IS NULL OR (emp.EmpID=@EmpID))
+	AND (@Del IS NULL OR (del=@Del))
+	AND datepart(YEAR, [InTime])=@Year
+	AND (@Month  IS NULL OR (datepart(MONTH, [InTime])=@Month))
+	AND datepart(HOUR, [InTime])=@StartHour
+	AND datepart(MINUTE, [InTime])>@StartMinute
+	AND datepart(MINUTE, [InTime])<=@EndMinute
+  end
+end
+
+CREATE proc [dbo].[spGetCountofOutTime]
+@EmpID uniqueidentifier = null,
+@Del bit =null,
+@Year int = null,
+@Month int =null ,
+@StartHour int,
+@StartMinute int,
+@EndHour int,
+@EndMinute int,
+@TimesheetCount int OUTPUT
+as
+begin
+if (@EndMinute=0)
+begin
+	SELECT @TimesheetCount=count([ID])
+	from tblTimeSheet ts left join tblEmployee emp
+	on ts.EmpID=emp.EmpID
+	where (@EmpID IS NULL OR (emp.EmpID=@EmpID))
+	AND (@Del IS NULL OR (del=@Del))
+	AND (@Month  IS NULL OR (datepart(YEAR, [OutTime])=@Year))
+	AND (@Month  IS NULL OR (datepart(MONTH, [OutTime])=@Month))
+	AND ((datepart(HOUR, [OutTime])=@StartHour
+	AND datepart(MINUTE, [OutTime])>@StartMinute)
+	OR (datepart(HOUR, [OutTime])=@EndHour
+	AND datepart(MINUTE, [OutTime])<=@EndMinute))
+
+end
+else
+begin
+	SELECT @TimesheetCount=count([ID])
+	from tblTimeSheet ts left join tblEmployee emp
+	on ts.EmpID=emp.EmpID
+	where (@EmpID IS NULL OR (emp.EmpID=@EmpID))
+	AND (@Del IS NULL OR (del=@Del))
+	AND datepart(YEAR, [OutTime])=@Year
+	AND (@Month  IS NULL OR (datepart(MONTH, [OutTime])=@Month))
+	AND datepart(HOUR, [OutTime])=@StartHour
+	AND datepart(MINUTE, [OutTime])>@StartMinute
+	AND datepart(MINUTE, [OutTime])<=@EndMinute
+  end
+end
+
+
+
+CREATE proc [dbo].[spGetTimeSheetByNameorInTimeorOutTime]
+@EmpID uniqueidentifier = null,
+@Del bit = null,
+@StartInTime datetime = null,
+@EndInTime datetime = null,
+@StartOutTime datetime = null,
+@EndOutTime datetime = null
+as
+begin
+Select emp.FirstName, emp.LastName, ts.InTime, ts.OutTime, DATEDIFF ( MINUTE , ts.InTime , ts.OutTime ) as TotalHours, ts.TextBox1
+from tblTimeSheet ts left join tblEmployee emp
+on ts.EmpID=emp.EmpID
+where
+(@EmpID IS NULL OR (emp.EmpID=@EmpID))
+AND (@Del IS NULL OR (emp.del=@Del))
+AND (@StartInTime IS NULL OR (InTime>=@StartInTime))
+AND (@EndInTime  IS NULL OR (InTime<=@EndInTime))
+AND (@StartOutTime IS NULL OR (OutTime>=@StartOutTime))
+AND (@EndOutTime  IS NULL OR (OutTime<=@EndOutTime))
+order by ts.InTime desc
+end
