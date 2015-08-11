@@ -146,3 +146,15 @@ AND (@StartOutTime IS NULL OR (OutTime>=@StartOutTime))
 AND (@EndOutTime  IS NULL OR (OutTime<=@EndOutTime))
 order by ts.InTime desc
 end
+
+
+INSERT INTO tblEmployee
+(EmpID, FirstName, LastName, Email, CreateTime, LatestModifiedTime, InOffice, del )
+VALUES
+('7B0A9D49-5C71-419C-82D9-0EE9D60CE50C', 'James', 'Smith', 'jsmith@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 ),
+('4103D7CB-0C8A-4130-8F1C-213851A4EFB4', 'David', 'Thompson', 'dthompson@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 ),
+('93711143-4913-4193-94AB-36FCE4116064', 'Daniel', 'Johnson', 'djohnson@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 ),
+('CC6312FF-2FEF-417C-A9A6-4C2FEE26F3E5', 'Mary', 'Hall', 'mhall@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 ),
+('E73E4955-23FB-41C6-981C-52FFF108F94F', 'Jennifer', 'Clark', 'jclark@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 ),
+('AF237B6D-020C-42D8-B230-6592ED350A72', 'Lisa', 'Anderson', 'landerson@xyz.com', '2015-06-30 10:51:47.000', '2015-06-30 10:51:47.000', 0, 0 );
+
