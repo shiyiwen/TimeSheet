@@ -53,11 +53,11 @@
             </td>
             <td width="50%" align="left">
                 @Html.RadioButton("rdbEmployee", "Active", true, new { @id = "rdbActiveEmployee" })
-                Active
+                <label for="rdbActiveEmployee">Active</label> &nbsp; &nbsp; &nbsp;
                 @Html.RadioButton("rdbEmployee", "Inactive", new { @id = "rdbInactiveEmployee" })
-                Inactive
+                <label for="rdbInactiveEmployee">Inactive</label>&nbsp; &nbsp; &nbsp;
                 @Html.RadioButton("rdbEmployee", "All", new { @id = "rdbAllEmployee" })
-                All
+                <label for="rdbAllEmployee">All</label>
             </td>
         </tr>
         <tr>
