@@ -31,14 +31,112 @@ namespace TimeSheet.Models
         public DbSet<tblEmployee> tblEmployees { get; set; }
         public DbSet<tblTimeSheet> tblTimeSheets { get; set; }
     
+        public virtual int spGetCountofInTime(Nullable<System.Guid> empID, Nullable<bool> del, Nullable<int> year, Nullable<int> month, Nullable<int> startHour, Nullable<int> startMinute, Nullable<int> endHour, Nullable<int> endMinute, ObjectParameter timesheetCount)
+        {
+            var empIDParameter = empID.HasValue ?
+                new ObjectParameter("EmpID", empID) :
+                new ObjectParameter("EmpID", typeof(System.Guid));
+    
+            var delParameter = del.HasValue ?
+                new ObjectParameter("Del", del) :
+                new ObjectParameter("Del", typeof(bool));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(int));
+    
+            var startHourParameter = startHour.HasValue ?
+                new ObjectParameter("StartHour", startHour) :
+                new ObjectParameter("StartHour", typeof(int));
+    
+            var startMinuteParameter = startMinute.HasValue ?
+                new ObjectParameter("StartMinute", startMinute) :
+                new ObjectParameter("StartMinute", typeof(int));
+    
+            var endHourParameter = endHour.HasValue ?
+                new ObjectParameter("EndHour", endHour) :
+                new ObjectParameter("EndHour", typeof(int));
+    
+            var endMinuteParameter = endMinute.HasValue ?
+                new ObjectParameter("EndMinute", endMinute) :
+                new ObjectParameter("EndMinute", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spGetCountofInTime", empIDParameter, delParameter, yearParameter, monthParameter, startHourParameter, startMinuteParameter, endHourParameter, endMinuteParameter, timesheetCount);
+        }
+    
+        public virtual int spGetCountofOutTime(Nullable<System.Guid> empID, Nullable<bool> del, Nullable<int> year, Nullable<int> month, Nullable<int> startHour, Nullable<int> startMinute, Nullable<int> endHour, Nullable<int> endMinute, ObjectParameter timesheetCount)
+        {
+            var empIDParameter = empID.HasValue ?
+                new ObjectParameter("EmpID", empID) :
+                new ObjectParameter("EmpID", typeof(System.Guid));
+    
+            var delParameter = del.HasValue ?
+                new ObjectParameter("Del", del) :
+                new ObjectParameter("Del", typeof(bool));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(int));
+    
+            var monthParameter = month.HasValue ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(int));
+    
+            var startHourParameter = startHour.HasValue ?
+                new ObjectParameter("StartHour", startHour) :
+                new ObjectParameter("StartHour", typeof(int));
+    
+            var startMinuteParameter = startMinute.HasValue ?
+                new ObjectParameter("StartMinute", startMinute) :
+                new ObjectParameter("StartMinute", typeof(int));
+    
+            var endHourParameter = endHour.HasValue ?
+                new ObjectParameter("EndHour", endHour) :
+                new ObjectParameter("EndHour", typeof(int));
+    
+            var endMinuteParameter = endMinute.HasValue ?
+                new ObjectParameter("EndMinute", endMinute) :
+                new ObjectParameter("EndMinute", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spGetCountofOutTime", empIDParameter, delParameter, yearParameter, monthParameter, startHourParameter, startMinuteParameter, endHourParameter, endMinuteParameter, timesheetCount);
+        }
+    
+        public virtual ObjectResult<spGetTimeSheetByNameorInTimeorOutTime_Result> spGetTimeSheetByNameorInTimeorOutTime(Nullable<System.Guid> empID, Nullable<bool> del, Nullable<System.DateTime> startInTime, Nullable<System.DateTime> endInTime, Nullable<System.DateTime> startOutTime, Nullable<System.DateTime> endOutTime)
+        {
+            var empIDParameter = empID.HasValue ?
+                new ObjectParameter("EmpID", empID) :
+                new ObjectParameter("EmpID", typeof(System.Guid));
+    
+            var delParameter = del.HasValue ?
+                new ObjectParameter("Del", del) :
+                new ObjectParameter("Del", typeof(bool));
+    
+            var startInTimeParameter = startInTime.HasValue ?
+                new ObjectParameter("StartInTime", startInTime) :
+                new ObjectParameter("StartInTime", typeof(System.DateTime));
+    
+            var endInTimeParameter = endInTime.HasValue ?
+                new ObjectParameter("EndInTime", endInTime) :
+                new ObjectParameter("EndInTime", typeof(System.DateTime));
+    
+            var startOutTimeParameter = startOutTime.HasValue ?
+                new ObjectParameter("StartOutTime", startOutTime) :
+                new ObjectParameter("StartOutTime", typeof(System.DateTime));
+    
+            var endOutTimeParameter = endOutTime.HasValue ?
+                new ObjectParameter("EndOutTime", endOutTime) :
+                new ObjectParameter("EndOutTime", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetTimeSheetByNameorInTimeorOutTime_Result>("spGetTimeSheetByNameorInTimeorOutTime", empIDParameter, delParameter, startInTimeParameter, endInTimeParameter, startOutTimeParameter, endOutTimeParameter);
+        }
+    
         public virtual ObjectResult<spGetAllEmployee_Result> spGetAllEmployee()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllEmployee_Result>("spGetAllEmployee");
-        }
-    
-        public virtual ObjectResult<spGetAllTimeSheet_Result> spGetAllTimeSheet()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spGetAllTimeSheet_Result>("spGetAllTimeSheet");
         }
     }
 }

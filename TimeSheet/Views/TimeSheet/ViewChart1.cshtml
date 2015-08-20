@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "ViewChart1";
+}
+
+
+@RenderPage("~/Shared/_Header.cshtml")
+@RenderPage("~/Shared/_Navigation.cshtml")
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        //var chartTitle=getChartTitle();
+        var result = [["Timerange", "In Time", "Out Time"]];
+        var result_item;
+        alert("begin");
+        $.ajax({
+            url: '/TimeSheet/makechartdata/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                alert("aucc");
+                $(data).each(function (index, item) {
+                    var count1 = parseInt(item.IntimeCount, 10);
+                    alert(typeof count1);
+                    var count2 = parseInt(item.OuttimeCount, 10);
+                    result_item = [item.TimeRange, count1, count2];
+                    alert(result_item);
+                    result.push(result_item);
+                })
+            },
+            error: function(err){
+                alert("err");
+            }
+        })
+
+        alert(result);
+        var data = google.visualization.arrayToDataTable(result);
+        var options = {
+            title: "chartTitle",
+            hAxis: { title: 'Time Range', titleTextStyle: { color: '#333' } },
+            vAxis: { minValue: 0,format: 'decimal'}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+<div class="container">
+    <h2>Timesheet | Chart</h2>
+    <div class="timesheet">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <table style="border:none !important">
+                <tr>
+                    <td width="25%" align="right">Name </td>
+                    <td width="25%" align="left">
+                        @Html.DropDownList("ddlAllEmployees", null, "-All Employee-", new { @id = "ddlAllEmployees", @class = "dropdownlist" })
+                        @Html.DropDownList("ddlActiveEmployees", null, "-Active Employee-", new { @id = "ddlActiveEmployees", @class = "dropdownlist" })
+                        @Html.DropDownList("ddlInactiveEmployees", null, "-Inactive Employee-", new { @id = "ddlInactiveEmployees", @class = "dropdownlist" })
+                        <br>
+                    </td>
+                    <td width="50%" align="left">
+                        @Html.RadioButton("rdbEmployee", "Active", true, new { @id = "rdbActiveEmployee" })
+                        <label for="rdbActiveEmployee">Active</label> &nbsp; &nbsp; &nbsp;
+                        @Html.RadioButton("rdbEmployee", "Inactive", new { @id = "rdbInactiveEmployee" })
+                        <label for="rdbInactiveEmployee">Inactive</label>&nbsp; &nbsp; &nbsp;
+                        @Html.RadioButton("rdbEmployee", "All", new { @id = "rdbAllEmployee" })
+                        <label for="rdbAllEmployee">All</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Year <font color="red">*</font></td>
+                    <td align="left">
+                        @Html.DropDownList("ddlYear", null, "-Year-", new { @id = "ddlYear", @class = "dropdownlist" })
+                    </td>
+                    <td align="left">
+                        Month
+                        @Html.DropDownList("ddlMonth", null, "-Month-", new { @id = "ddlMonth", @class = "dropdownlist" })
+                    </td>
+                </tr>
+                <tr style="height:15px !important">
+                    <td width="25%"></td>
+                    <td colspan="2" align="left">
+                        <label class="display-field" style="padding:0px; margin:0px !important" id="lbYear"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <input id="ChartSubmit" type="button" value="Search" class="button" />
+                        &nbsp; &nbsp; &nbsp;
+                        <input id="ChartReset" type="button" value="Reset" class="button" />
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+</div>
+
+@RenderPage("~/Shared/_Footer.cshtml")

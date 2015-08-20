@@ -11,13 +11,14 @@ using Infragistics.Web.Mvc;
 using System.Collections;
 using System.Web.Script.Serialization;
 using System.Globalization;
+using System.Web.Services;
 
 namespace TimeSheet.Controllers
 {
     public class TimeSheetController : Controller
     {
         private TimeSheetContext db = new TimeSheetContext();
-
+        //public HttpContext context = new HttpContext();
         //
         // GET: /TimeSheet/
         [HttpGet]
@@ -246,5 +247,44 @@ namespace TimeSheet.Controllers
             ViewBag.ddlActiveEmployees = new SelectList(ddlactiveEmployees, "EmpID", "FullName");
             ViewBag.ddlInactiveEmployees = new SelectList(ddlinactiveEmployees, "EmpID", "FullName");
         }
+
+        [HttpGet]
+        public ActionResult ViewChart1()
+        {
+            initEmpDDL();
+            initDateDDL();
+
+            return View();
+        }
+
+
+
+        public JsonResult makechartdata(){
+            string[] TimeRangeArr = new string[48];
+            TimeSheetBusinessLayer timesheetbusinesslayer = new TimeSheetBusinessLayer();
+            List<tsChartData> cdList = new List<tsChartData>();
+
+            for (int i = 0; i <= 23; i++)
+            {
+                TimeRangeArr[i * 2] = i.ToString() + ":00~" + i.ToString() + ":30";
+                TimeRangeArr[i * 2 + 1] = i.ToString() + ":30~" + (i + 1).ToString() + ":00";
+            }
+
+            foreach (string TimeRangeItem in TimeRangeArr)
+            {
+                char[] delimiterChars = { ':', '~' };
+                string[] timeElmt = TimeRangeItem.Split(delimiterChars);
+                int CourtInTime = timesheetbusinesslayer.CountInTime(null, false, System.DateTime.Now.Year, System.DateTime.Now.Month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+
+                int CourtOutTime = timesheetbusinesslayer.CountOutTime(null, false, System.DateTime.Now.Year, System.DateTime.Now.Month, Int32.Parse(timeElmt[0]), Int32.Parse(timeElmt[1]), Int32.Parse(timeElmt[2]), Int32.Parse(timeElmt[3]));
+                tsChartData cdItem = new tsChartData { TimeRange = TimeRangeItem, IntimeCount = CourtInTime, OuttimeCount = CourtOutTime };
+                cdList.Add(cdItem);
+            }
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string jsonStr = js.Serialize(cdList);
+            //HttpContext.Response.Write(jsonStr);
+            return Json(cdList,JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

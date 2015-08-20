@@ -43,9 +43,35 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="spGetAllEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="spGetAllTimeSheet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="spGetTimeSheetByName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="spGetCountofInTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="EmpID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Del" Type="bit" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="StartHour" Type="int" Mode="In" />
+          <Parameter Name="StartMinute" Type="int" Mode="In" />
+          <Parameter Name="EndHour" Type="int" Mode="In" />
+          <Parameter Name="EndMinute" Type="int" Mode="In" />
+          <Parameter Name="TimesheetCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spGetCountofOutTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Del" Type="bit" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="StartHour" Type="int" Mode="In" />
+          <Parameter Name="StartMinute" Type="int" Mode="In" />
+          <Parameter Name="EndHour" Type="int" Mode="In" />
+          <Parameter Name="EndMinute" Type="int" Mode="In" />
+          <Parameter Name="TimesheetCount" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spGetTimeSheetByNameorInTimeorOutTime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EmpID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Del" Type="bit" Mode="In" />
+          <Parameter Name="StartInTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndInTime" Type="datetime" Mode="In" />
+          <Parameter Name="StartOutTime" Type="datetime" Mode="In" />
+          <Parameter Name="EndOutTime" Type="datetime" Mode="In" />
         </Function>
         <EntityContainer Name="TimeSheetModelStoreContainer">
           <EntitySet Name="tblEmployee" EntityType="Self.tblEmployee" Schema="dbo" store:Type="Tables" />
@@ -66,8 +92,37 @@
             <End Role="tblEmployee" EntitySet="tblEmployees" />
             <End Role="tblTimeSheet" EntitySet="tblTimeSheets" />
           </AssociationSet>
+          <FunctionImport Name="spGetCountofInTime">
+            <Parameter Name="EmpID" Mode="In" Type="Guid" />
+            <Parameter Name="Del" Mode="In" Type="Boolean" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+            <Parameter Name="StartHour" Mode="In" Type="Int32" />
+            <Parameter Name="StartMinute" Mode="In" Type="Int32" />
+            <Parameter Name="EndHour" Mode="In" Type="Int32" />
+            <Parameter Name="EndMinute" Mode="In" Type="Int32" />
+            <Parameter Name="TimesheetCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetCountofOutTime">
+            <Parameter Name="EmpID" Mode="In" Type="Guid" />
+            <Parameter Name="Del" Mode="In" Type="Boolean" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+            <Parameter Name="StartHour" Mode="In" Type="Int32" />
+            <Parameter Name="StartMinute" Mode="In" Type="Int32" />
+            <Parameter Name="EndHour" Mode="In" Type="Int32" />
+            <Parameter Name="EndMinute" Mode="In" Type="Int32" />
+            <Parameter Name="TimesheetCount" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spGetTimeSheetByNameorInTimeorOutTime" ReturnType="Collection(TimeSheetModel.spGetTimeSheetByNameorInTimeorOutTime_Result)">
+            <Parameter Name="EmpID" Mode="In" Type="Guid" />
+            <Parameter Name="Del" Mode="In" Type="Boolean" />
+            <Parameter Name="StartInTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndInTime" Mode="In" Type="DateTime" />
+            <Parameter Name="StartOutTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EndOutTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <FunctionImport Name="spGetAllEmployee" ReturnType="Collection(TimeSheetModel.spGetAllEmployee_Result)" />
-          <FunctionImport Name="spGetAllTimeSheet" ReturnType="Collection(TimeSheetModel.spGetAllTimeSheet_Result)" />
         </EntityContainer>
         <EntityType Name="tblEmployee">
           <Key>
@@ -120,6 +175,14 @@
           <Property Type="Int32" Name="TotalHours" Nullable="true" />
           <Property Type="String" Name="TextBox1" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <ComplexType Name="spGetTimeSheetByNameorInTimeorOutTime_Result">
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="InTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="OutTime" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="TotalHours" Nullable="true" />
+          <Property Type="String" Name="TextBox1" Nullable="true" MaxLength="200" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -153,23 +216,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spGetAllEmployee" FunctionName="TimeSheetModel.Store.spGetAllEmployee">
+          <FunctionImportMapping FunctionImportName="spGetCountofInTime" FunctionName="TimeSheetModel.Store.spGetCountofInTime" />
+          <FunctionImportMapping FunctionImportName="spGetCountofOutTime" FunctionName="TimeSheetModel.Store.spGetCountofOutTime" />
+          <FunctionImportMapping FunctionImportName="spGetTimeSheetByNameorInTimeorOutTime" FunctionName="TimeSheetModel.Store.spGetTimeSheetByNameorInTimeorOutTime">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllEmployee_Result">
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spGetAllTimeSheet" FunctionName="TimeSheetModel.Store.spGetAllTimeSheet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllTimeSheet_Result">
+              <ComplexTypeMapping TypeName="TimeSheetModel.spGetTimeSheetByNameorInTimeorOutTime_Result">
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="InTime" ColumnName="InTime" />
                 <ScalarProperty Name="OutTime" ColumnName="OutTime" />
                 <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
                 <ScalarProperty Name="TextBox1" ColumnName="TextBox1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spGetAllEmployee" FunctionName="TimeSheetModel.Store.spGetAllEmployee">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TimeSheetModel.spGetAllEmployee_Result">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

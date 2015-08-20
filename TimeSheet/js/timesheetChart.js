@@ -21,6 +21,7 @@
         $('#ddlMonth').val("");
         $("#lbYear").text("");
     })
+
 })
 
 function showDropDownList() {
